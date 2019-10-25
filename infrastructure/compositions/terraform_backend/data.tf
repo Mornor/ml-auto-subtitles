@@ -46,7 +46,10 @@ data "aws_iam_policy_document" "bucket_policy" {
 }
 
 locals {
-  tags = {
-    Name       = "S3-state-bucket"
+  s3_state_backend_tags = {
+    Name  = "s3-state-bucket"
+  }
+  ddb_state_backend_tags = {
+    Name  = "ddb-lock-table"
   }
 }

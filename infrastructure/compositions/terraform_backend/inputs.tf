@@ -41,3 +41,27 @@ variable "ignore_public_acls" {
 variable "restrict_public_buckets" {
   type = bool
 }
+
+variable "dynamodb_name" {
+  type = string
+}
+
+variable "read_capacity" {
+  type = number
+}
+
+variable "write_capacity" {
+  type = number
+}
+
+variable "hash_key" {
+  type = string
+}
+
+variable "sse_enabled" {
+  type = bool
+}
+
+variable "attribute" {
+  type = list(map(string))
+}

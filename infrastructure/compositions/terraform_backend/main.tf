@@ -11,7 +11,7 @@ module "s3" {
   versioning_enabled        = var.versioning_enabled
   versioning_mfa_delete     = var.versioning_mfa_delete
   sse_algorithm             = var.sse_algorithm
-  tags                      = local.tags
+  tags                      = local.s3_state_backend_tags
   policy                    = data.aws_iam_policy_document.bucket_policy.json
   block_public_policy       = var.block_public_policy
   block_public_acls         = var.block_public_acls
@@ -20,13 +20,13 @@ module "s3" {
 }
 
 # DynamoDB
-/*module "dynamodb" {
-  source         = "../../resource/database/dynamodb"
-  name           = local.dynamodb_name
+module "dynamodb" {
+  source         = "../../resources/database/dynamodb"
+  name           = var.dynamodb_name
   read_capacity  = var.read_capacity
   write_capacity = var.write_capacity
   hash_key       = var.hash_key
   attribute      = var.attribute
   sse_enabled    = var.sse_enabled
-  tags           = var.tags
-}*/
+  tags           = local.ddb_state_backend_tags
+}
