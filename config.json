@@ -1,4 +1,4 @@
 {
   "audio_path": "./audio_trimmed.mp3",
-  "result_path": "./translated.mp3"
+  "result_path": "./translated.srt"
 }
