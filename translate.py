@@ -2,6 +2,7 @@ import shutil
 import urllib.request
 import boto3
 import time
+import json
 import string
 import random
 
@@ -55,9 +56,17 @@ class Transcribe():
       shutil.copyfileobj(response, out_file)
     print('Translation done and saved under: '+self._path_transcribe_result_output)
 
+  def _create_srt_file(self):
+    # Right now, just opening a local result and process it.
+    with open('./transcribe_result.json') as file:
+      raw_result = json.load(file)
+    print(raw_result['results']['items'])
+
+
   def run(self):
-    self._upload_audio_to_s3()
-    self._transcribe()
+    #self._upload_audio_to_s3()
+    #self._transcribe()
+    self._create_srt_file()
 
 
 if __name__ == '__main__':
