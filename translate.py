@@ -80,7 +80,8 @@ class Transcribe():
 
 
 class SentenceSRT():
-	def __init__(self, start_time=None, end_time=None, words=[]):
+	def __init__(self, order=None, start_time=None, end_time=None, words=[]):
+		self._order = order
 		self._start_time = start_time
 		self._end_time = end_time
 		self._words = words
@@ -96,8 +97,10 @@ def create_srt_file():
 	nPhrase = True
 	x = 0
 	c = 0
+	seq_order = 1 # SRT start with 1
 
 	for item in items:
+		phrase._order = seq_order
 		if nPhrase == True:
 			if item["type"] == "pronunciation":
 				phrase._start_time = get_timestamp(float(item["start_time"]))
@@ -115,9 +118,12 @@ def create_srt_file():
 			phrase = SentenceSRT()
 			nPhrase = True
 			x = 0
+			# After each sentence, increase seq_order
+			seq_order += 1
 
+	print(phrases[0]._order)
 	print(phrases[0]._start_time)
-	print(phrases[0]._words)
+	print(' '.join(phrases[0]._words))
 	print(phrases[0]._end_time)
 	#return phrases
 """
