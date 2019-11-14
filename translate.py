@@ -78,16 +78,73 @@ class Transcribe():
         self._create_srt_file()
 
 
+
+class SentenceSRT():
+	def __init__(self, start_time=None, end_time=None, words=[]):
+		self._start_time = start_time
+		self._end_time = end_time
+		self._words = words
+
 def create_srt_file():
-  with open('./transcribe_result.json') as file:
-    raw_result = json.load(file)
+	with open('./transcribe_result.json') as file:
+		raw_result = json.load(file)
+
+	items = raw_result['results']['items']
+
+	phrase = SentenceSRT()
+	phrases = []
+	nPhrase = True
+	x = 0
+	c = 0
+
+	for item in items:
+		if nPhrase == True:
+			if item["type"] == "pronunciation":
+				phrase._start_time = get_timestamp(float(item["start_time"]))
+				nPhrase = False
+				c += 1
+		else:
+			if item["type"] == "pronunciation":
+				phrase._end_time = get_timestamp(float(item["end_time"]))
+
+		phrase._words.append(item['alternatives'][0]["content"])
+		x += 1
+
+		if x == 3:
+			phrases.append(phrase)
+			phrase = SentenceSRT()
+			nPhrase = True
+			x = 0
+
+	print(phrases[0]._start_time)
+	print(phrases[0]._words)
+	print(phrases[0]._end_time)
+	#return phrases
+"""
   # print(raw_result['results']['items'])
   raw_items = raw_result['results']['items']
+  sentences = []
+  words = 0
   for raw_item in raw_items:
     if raw_item['type'] == 'pronunciation':
-      timestamp = get_timestamp(raw_item['start_time'])
-      print(timestamp)
-    #print(raw_item['start_time'])
+      start_time = get_timestamp(raw_item['start_time'])
+      words += 1
+      if(words < 3):
+        sentences.append(raw_item['alternatives'][0]['content'])
+        words = 0
+    print(sentences)
+"""
+
+
+"""
+1
+00: 00: 00, 260 - -> 00: 00: 02, 899
+How about language? You know, i talked earlier
+
+2
+00: 00: 02, 899 - -> 00: 00: 05, 860
+about the fact that last year we launched both Polly
+"""
 
 
 def get_timestamp(seconds):
