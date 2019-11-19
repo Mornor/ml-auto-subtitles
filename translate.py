@@ -77,17 +77,7 @@ class Transcribe():
         # self._transcribe()
         self._create_srt_file()
 
-
-
-class SentenceSRT():
-	def __init__(self, order=None, start_time=None, end_time=None, words=[]):
-		self._order = order
-		self._start_time = start_time
-		self._end_time = end_time
-		self._words = words
-
-
-def newPhrase():
+def new_phrase():
 	return {'start_time': '', 'end_time': '', 'words': []}
 
 def create_srt_file():
@@ -96,78 +86,32 @@ def create_srt_file():
 
 	items = raw_result['results']['items']
 
-	phrase = newPhrase()
+	phrase = new_phrase()
 	phrases = []
 	nPhrase = True
 	nb_words = 0
 	seq_order = 1 # SRT start with 1
 
 	for item in items:
-		#phrase._order = seq_order
 		if nPhrase == True:
 			if item["type"] == "pronunciation":
-				#phrase._start_time = get_timestamp(float(item["start_time"]))
 				phrase["start_time"] = get_timestamp(float(item["start_time"]))
 				nPhrase = False
 		else:
 			if item["type"] == "pronunciation":
-				#phrase._end_time = get_timestamp(float(item["end_time"]))
 				phrase["end_time"] = get_timestamp(float(item["end_time"]))
 
-		#phrase._words.append(item['alternatives'][0]["content"])
 		phrase["words"].append(item['alternatives'][0]["content"])
 		nb_words += 1
 
 		if nb_words == 3:
 			phrases.append(phrase)
-			#print(phrase._words)
-			#phrase = SentenceSRT()
-			phrase = newPhrase()
+			phrase = new_phrase()
 			nPhrase = True
 			nb_words = 0
-			# After each sentence, increase seq_order
 			seq_order += 1
 
-	for a in phrases:
-		print(a)
-
-	# print(phrases[0]._order)
-	# print(phrases[0]._start_time)
-	# print(' '.join(phrases[0]._words))
-	# print(phrases[0]._end_time)
-
-	# print(phrases[1]._order)
-	# print(phrases[1]._start_time)
-	# print(' '.join(phrases[1]._words))
-	# print(phrases[1]._end_time)
-
-	# print(phrases[2]._order)
-	# print(phrases[2]._start_time)
-	# print(' '.join(phrases[2]._words))
-	# print(phrases[2]._end_time)
-
-	# print(phrases[3]._order)
-	# print(phrases[3]._start_time)
-	# print(' '.join(phrases[3]._words))
-	# print(phrases[3]._end_time)
-
-	print('Len = ' +str(len(phrases)))
-
-	#return phrases
-"""
-  # print(raw_result['results']['items'])
-  raw_items = raw_result['results']['items']
-  sentences = []
-  words = 0
-  for raw_item in raw_items:
-    if raw_item['type'] == 'pronunciation':
-      start_time = get_timestamp(raw_item['start_time'])
-      words += 1
-      if(words < 3):
-        sentences.append(raw_item['alternatives'][0]['content'])
-        words = 0
-    print(sentences)
-"""
+	return phrases
 
 
 """
