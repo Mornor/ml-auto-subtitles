@@ -64,7 +64,6 @@ class Transcribe():
         tmins = int(tseconds / 60)
         return str("%02d:%02d:%02d,%03d" % (00, tmins, int(tsecs), thund))
 
-
     def _create_srt_file(self):
         with open('./transcribe_result.json') as file:
             raw_result = json.load(file)
@@ -97,22 +96,18 @@ class Transcribe():
                 nb_words = 0
                 seq_order += 1
 
-        return phrases
+        with open('./subtitles.srt', 'w+') as out_file:
+            for phrase in phrases:
+                out_file.write(str(phrase['seq_order']))
+                out_file.write('\n')
+                out_file.write(str(phrase['start_time']) + ' --> ' + str(phrase['end_time']))
+                out_file.write('\n')
+                out_file.write(' '.join(phrase['words']))
+                out_file.write('\n\n')
 
     def run(self):
-        subtitle_sentences = self._create_srt_file()
-        for phrase in subtitle_sentences:
-            print(phrase)
+        self._create_srt_file()
 
-"""
-1
-00: 00: 00, 260 - -> 00: 00: 02, 899
-How about language? You know, i talked earlier
-
-2
-00: 00: 02, 899 - -> 00: 00: 05, 860
-about the fact that last year we launched both Polly
-"""
 
 if __name__ == '__main__':
     Transcribe('./audio_trimmed.mp3', './transcribe_result.json', 'eu-central-1', 's3-ec1-app-bucket').run()
