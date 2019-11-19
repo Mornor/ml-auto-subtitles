@@ -6,15 +6,6 @@ import json
 import string
 import random
 
-
-class VideoFile():
-    def __init__(self):
-        self._audio_track = self._extract_audio()
-
-    def _extract_audio(self):
-        return 0
-
-
 class Transcribe():
     def __init__(self, path_audio_input, path_transcribe_result_output, region, bucket):
         self._transcribe_job_name = self._randomize_job_name()
@@ -61,58 +52,57 @@ class Transcribe():
         print('Translation done and saved under: ' +
               self._path_transcribe_result_output)
 
+    def new_phrase(self):
+	    return {'seq_order': '', 'start_time': '', 'end_time': '', 'words': []}
+
+
+    def get_timestamp(self, seconds):
+        seconds = float(seconds)
+        thund = int(seconds % 1 * 1000)
+        tseconds = int(seconds)
+        tsecs = ((float(tseconds) / 60) % 1) * 60
+        tmins = int(tseconds / 60)
+        return str("%02d:%02d:%02d,%03d" % (00, tmins, int(tsecs), thund))
+
+
     def _create_srt_file(self):
-        # Right now, just opening a local result and process it.
-        # Aim - Create phrases of ~10 words and create proper .srt file (3 for this example)
         with open('./transcribe_result.json') as file:
             raw_result = json.load(file)
-        # print(raw_result['results']['items'])
-        raw_items = raw_result['results']['items']
-        # Assume that the items are chronoligically sorted
-        for raw_item in raw_items:
-            print(raw_item)
+
+        items = raw_result['results']['items']
+
+        phrase = self.new_phrase()
+        phrases = []
+        nPhrase = True
+        nb_words = 0
+        seq_order = 1  # SRT start with 1
+
+        for item in items:
+            if nPhrase == True:
+                if item['type'] == 'pronunciation':
+                    phrase['start_time'] = self.get_timestamp(float(item['start_time']))
+                    nPhrase = False
+            else:
+                if item['type'] == 'pronunciation':
+                    phrase['end_time'] = self.get_timestamp(float(item['end_time']))
+
+            phrase['seq_order'] = seq_order
+            phrase['words'].append(item['alternatives'][0]['content'])
+            nb_words += 1
+
+            if nb_words == 3:
+                phrases.append(phrase)
+                phrase = self.new_phrase()
+                nPhrase = True
+                nb_words = 0
+                seq_order += 1
+
+        return phrases
 
     def run(self):
-        # self._upload_audio_to_s3()
-        # self._transcribe()
-        self._create_srt_file()
-
-def new_phrase():
-	return {'start_time': '', 'end_time': '', 'words': []}
-
-def create_srt_file():
-	with open('./transcribe_result.json') as file:
-		raw_result = json.load(file)
-
-	items = raw_result['results']['items']
-
-	phrase = new_phrase()
-	phrases = []
-	nPhrase = True
-	nb_words = 0
-	seq_order = 1 # SRT start with 1
-
-	for item in items:
-		if nPhrase == True:
-			if item["type"] == "pronunciation":
-				phrase["start_time"] = get_timestamp(float(item["start_time"]))
-				nPhrase = False
-		else:
-			if item["type"] == "pronunciation":
-				phrase["end_time"] = get_timestamp(float(item["end_time"]))
-
-		phrase["words"].append(item['alternatives'][0]["content"])
-		nb_words += 1
-
-		if nb_words == 3:
-			phrases.append(phrase)
-			phrase = new_phrase()
-			nPhrase = True
-			nb_words = 0
-			seq_order += 1
-
-	return phrases
-
+        subtitle_sentences = self._create_srt_file()
+        for phrase in subtitle_sentences:
+            print(phrase)
 
 """
 1
@@ -124,17 +114,7 @@ How about language? You know, i talked earlier
 about the fact that last year we launched both Polly
 """
 
-
-def get_timestamp(seconds):
-  seconds = float(seconds)
-  thund = int(seconds % 1 * 1000)
-  tseconds = int(seconds)
-  tsecs = ((float(tseconds) / 60) % 1) * 60
-  tmins = int(tseconds / 60)
-  return str("%02d:%02d:%02d,%03d" % (00, tmins, int(tsecs), thund))
-
 if __name__ == '__main__':
-    # Transcribe('./audio_trimmed.mp3', './transcribe_result.json', 'eu-central-1', 's3-ec1-app-bucket').run()
-    create_srt_file()
+    Transcribe('./audio_trimmed.mp3', './transcribe_result.json', 'eu-central-1', 's3-ec1-app-bucket').run()
 
 
