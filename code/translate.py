@@ -110,6 +110,6 @@ class Transcribe():
 
 
 if __name__ == '__main__':
-    Transcribe('./audio_trimmed.mp3', './transcribe_result.json', 'eu-central-1', 's3-ec1-app-bucket').run()
+    Transcribe('./assets/audio_trimmed.mp3', './transcribe_result.json', 'eu-central-1', 's3-ec1-app-bucket').run()
 
 

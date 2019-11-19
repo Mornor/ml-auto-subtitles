@@ -1,0 +1,177 @@
+{
+  "jobName": "yzupbp",
+  "accountId": "026708142893",
+  "results": {
+    "transcripts": [
+      {
+        "transcript": "way went to a self defense class today."
+      }
+    ],
+    "items": [
+      {
+        "start_time": "0.74",
+        "end_time": "5.72",
+        "alternatives": [
+          {
+            "confidence": "0.8713",
+            "content": "way"
+          }
+        ],
+        "type": "pronunciation"
+      },
+      {
+        "start_time": "5.72",
+        "end_time": "5.89",
+        "alternatives": [
+          {
+            "confidence": "1.0",
+            "content": "went"
+          }
+        ],
+        "type": "pronunciation"
+      },
+      {
+        "start_time": "5.89",
+        "end_time": "5.99",
+        "alternatives": [
+          {
+            "confidence": "0.9983",
+            "content": "to"
+          }
+        ],
+        "type": "pronunciation"
+      },
+      {
+        "start_time": "5.99",
+        "end_time": "6.07",
+        "alternatives": [
+          {
+            "confidence": "1.0",
+            "content": "a"
+          }
+        ],
+        "type": "pronunciation"
+      },
+      {
+        "start_time": "6.07",
+        "end_time": "6.35",
+        "alternatives": [
+          {
+            "confidence": "1.0",
+            "content": "self"
+          }
+        ],
+        "type": "pronunciation"
+      },
+      {
+        "start_time": "6.35",
+        "end_time": "6.77",
+        "alternatives": [
+          {
+            "confidence": "0.9977",
+            "content": "defense"
+          }
+        ],
+        "type": "pronunciation"
+      },
+      {
+        "start_time": "6.77",
+        "end_time": "7.19",
+        "alternatives": [
+          {
+            "confidence": "1.0",
+            "content": "class"
+          }
+        ],
+        "type": "pronunciation"
+      },
+      {
+        "start_time": "7.2",
+        "end_time": "7.58",
+        "alternatives": [
+          {
+            "confidence": "0.9812",
+            "content": "today"
+          }
+        ],
+        "type": "pronunciation"
+      },
+      {
+        "start_time": "7.2",
+        "end_time": "7.58",
+        "alternatives": [
+          {
+            "confidence": "0.9812",
+            "content": "today"
+          }
+        ],
+        "type": "pronunciation"
+      },
+      {
+        "start_time": "7.2",
+        "end_time": "7.58",
+        "alternatives": [
+          {
+            "confidence": "0.9812",
+            "content": "today"
+          }
+        ],
+        "type": "pronunciation"
+      },
+      {
+        "start_time": "7.2",
+        "end_time": "7.58",
+        "alternatives": [
+          {
+            "confidence": "0.9812",
+            "content": "today"
+          }
+        ],
+        "type": "pronunciation"
+      },
+      {
+        "start_time": "7.2",
+        "end_time": "7.58",
+        "alternatives": [
+          {
+            "confidence": "0.9812",
+            "content": "today"
+          }
+        ],
+        "type": "pronunciation"
+      },
+      {
+        "start_time": "7.2",
+        "end_time": "7.58",
+        "alternatives": [
+          {
+            "confidence": "0.9812",
+            "content": "today"
+          }
+        ],
+        "type": "pronunciation"
+      },
+      {
+        "start_time": "7.2",
+        "end_time": "7.58",
+        "alternatives": [
+          {
+            "confidence": "0.9812",
+            "content": "today"
+          }
+        ],
+        "type": "pronunciation"
+      },
+      {
+        "alternatives": [
+          {
+            "confidence": "0.0",
+            "content": "."
+          }
+        ],
+        "type": "punctuation"
+      }
+    ]
+  },
+  "status": "COMPLETED"
+}
