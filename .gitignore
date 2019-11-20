@@ -5,5 +5,5 @@
 *.tfstate.*
 *.tfstate
 *.srt
-code/transcribe_result.json
+*.json
 **__pycache__
