@@ -1,5 +1,6 @@
 import string
 import random
+import json
 
 class Utils:
     def _randomize_job_name(self):
@@ -18,7 +19,10 @@ class Utils:
 	    return {'seq_order': '', 'start_time': '', 'end_time': '', 'words': []}
 
     def _parse_transcribe(self, transcribe_result):
-        items = transcribe_result['results']['items']
+        with open(transcribe_result) as file:
+            raw_result = json.load(file)
+
+        items = raw_result['results']['items']
 
         phrase = self._new_phrase()
         phrases = []
