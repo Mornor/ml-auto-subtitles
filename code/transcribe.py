@@ -33,3 +33,7 @@ class Transcribe():
         self._upload_audio_to_s3()
         self._transcribe_and_save()
         self._parse_transcribe_result()
+
+
+if __name__ == '__main__':
+    Transcribe('../assets/audio_trimmed.mp3', './transcribe_result.json', './subtitles.srt', 'eu-central-1', 's3-ec1-app-bucket').run()
