@@ -35,4 +35,3 @@ class AwsInteract:
     def _download_from_url(self, url, local_output_path):
         with urllib.request.urlopen(url) as response, open(local_output_path, 'wb') as out_file:
             shutil.copyfileobj(response, out_file)
-        print('Translation done and saved under: ' +local_output_path)

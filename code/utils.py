@@ -61,3 +61,4 @@ class Utils:
                 out_file.write('\n')
                 out_file.write(' '.join(phrase['words']))
                 out_file.write('\n\n')
+        print('Translation done and saved under: ' + sutitle_file_name)
