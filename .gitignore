@@ -7,3 +7,5 @@
 *.srt
 *.json
 **__pycache__/
+**/results/
+**/assets/
