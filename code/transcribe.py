@@ -13,7 +13,7 @@ class Transcribe():
         self._path_audio_input = config['path_audio_input']
         self._aws_region = config['aws_region']
         self._bucket_name = config['bucket']
-        self._path_transcribe_result_output = './transcribe_result.json'
+        self._path_transcribe_result_output = '../results/transcribe_result.json'
         self._path_subtitle_file = config['path_srt_output']
 
     # Upload audio file to S3 Bucket
@@ -34,7 +34,6 @@ class Transcribe():
         self._upload_audio_to_s3()
         self._transcribe_and_save()
         self._parse_transcribe_result()
-
 
 if __name__ == '__main__':
     # Load config object

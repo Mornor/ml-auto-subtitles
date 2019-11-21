@@ -1,6 +1,7 @@
 import string
 import random
 import json
+from moviepy.editor import *
 
 class Utils:
     def _randomize_job_name(self):
@@ -62,3 +63,8 @@ class Utils:
                 out_file.write(' '.join(phrase['words']))
                 out_file.write('\n\n')
         print('Translation done and saved under: ' + sutitle_file_name)
+
+    def _extract_sound(self, video_path):
+        video = VideoFileClip(video_path)
+        audio = video.audio
+        audio.write_audiofile('./audio.mp3')
