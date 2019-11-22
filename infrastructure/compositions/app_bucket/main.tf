@@ -14,4 +14,5 @@ module "app_bucket" {
   block_public_acls         = var.block_public_acls
   ignore_public_acls        = var.ignore_public_acls
   restrict_public_buckets   = var.restrict_public_buckets
+  keys                      = var.keys
 }

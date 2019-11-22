@@ -1,11 +1,3 @@
-########################################
-# AWS S3 Bucket resource module
-#
-# https://www.terraform.io/docs/providers/aws/r/s3_bucket.html
-# https://www.terraform.io/docs/providers/aws/r/s3_bucket_policy.html
-# https://www.terraform.io/docs/providers/aws/r/s3_bucket_public_access_block.html
-########################################
-
 resource "aws_s3_bucket" "this" {
   bucket        = var.bucket_name
   region        = var.region
@@ -50,4 +42,11 @@ resource "aws_s3_bucket_public_access_block" "this" {
   restrict_public_buckets = var.restrict_public_buckets
 
   depends_on = [null_resource.delay]
+}
+
+resource "aws_s3_bucket_object" "this" {
+  count         = length(var.keys)
+  key           = var.keys[count.index]
+  bucket        = aws_s3_bucket.this.id
+  source        = "/dev/null"
 }

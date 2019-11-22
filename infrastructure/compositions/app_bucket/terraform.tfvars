@@ -10,3 +10,4 @@ block_public_policy     = true
 block_public_acls       = true
 ignore_public_acls      = true
 restrict_public_buckets = true
+keys                    = ["input/", "tmp/", "output/"]

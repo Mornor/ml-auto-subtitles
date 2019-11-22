@@ -41,3 +41,7 @@ variable "ignore_public_acls" {
 variable "restrict_public_buckets" {
   type = bool
 }
+
+variable "keys" {
+  type = list
+}

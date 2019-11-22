@@ -49,3 +49,7 @@ variable "restrict_public_buckets" {
 variable "policy" {
   type = string
 }
+
+variable "keys" {
+  type = list
+}
