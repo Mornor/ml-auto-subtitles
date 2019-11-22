@@ -46,7 +46,7 @@ resource "aws_s3_bucket_public_access_block" "this" {
 
 resource "aws_s3_bucket_object" "this" {
   count         = length(var.keys)
-  key           = var.keys[count.index]
   bucket        = aws_s3_bucket.this.id
+  key           = var.keys[count.index]
   source        = "/dev/null"
 }
