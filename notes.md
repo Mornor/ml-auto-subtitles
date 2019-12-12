@@ -4,3 +4,6 @@
 - Delete old mp3 file from S3 once transcribe job is done.
 - Upload the Video to S3 and use AWS native stuff to extract sound from it.
 - Add some SQS for buffering/scaling.
+
+[TODO]
+- Add permissions to S3 Bucket so that Lambda can read/write to/from it.
