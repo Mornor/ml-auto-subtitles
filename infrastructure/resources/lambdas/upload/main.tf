@@ -6,7 +6,7 @@ data "archive_file" "zipit" {
 }
 
 resource "aws_s3_bucket_object" "this" {
-  bucket = var.bucket_id
+  bucket = var.bucket_name
   key    = var.lambda_path_s3
   source = data.archive_file.zipit.output_path
 }

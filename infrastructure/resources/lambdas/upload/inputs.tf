@@ -6,27 +6,15 @@ variable "lambda_path_output" {
   type = string
 }
 
-variable "bucket_id" {
+variable "bucket_name" {
   type = string
 }
 
-variable "lambda_path_s3" {
+variable "lambda_s3_key" {
   type = string
 }
 
 variable "lambda_name" {
-  type = string
-}
-
-variable "description" {
-  type = string
-}
-
-variable "lambda_path_output" {
-  type = string
-}
-
-variable "handler" {
   type = string
 }
 
