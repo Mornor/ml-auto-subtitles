@@ -47,7 +47,7 @@ variable "publish" {
 }
 
 variable "tags" {
-  type = maps
+  type = map
 }
 
 variable "environment_variables" {
