@@ -10,6 +10,6 @@ module "upload_lambda" {
   memory_size        = var.lambda_extract_sound_mem_size
   timeout            = var.lambda_extract_sound_timeout
   role_arn           = module.lambda_extract_sound_role.arn
-  publish            = var.lambda_extract_sound_timeout
+  publish            = var.lambda_extract_sound_publish
   tags               = local.lambda_extract_sound_tags
 }

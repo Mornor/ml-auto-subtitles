@@ -16,4 +16,5 @@ lambda_extract_sound_policy_name = "policy_lambda_extract_sound"
 lambda_extract_sound_s3_key      = "lambdas/extract_sound.py"
 lambda_extract_sound_name        = "extract_sound"
 lambda_extract_sound_handler     = "extract_sound.handler"
+lambda_extract_sound_publish     = false
 
