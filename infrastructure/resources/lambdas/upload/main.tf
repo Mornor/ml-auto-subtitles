@@ -33,7 +33,7 @@ resource "aws_lambda_function" "this" {
 }
 
 # Allow Lambda to be invoked from S3
-resource "aws_lambda_permission" "allow_bucket" {
+resource "aws_lambda_permission" "this" {
   statement_id  = "AllowExecutionFromS3Bucket"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.this.arn
