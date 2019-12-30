@@ -7,17 +7,17 @@ data "archive_file" "zipit" {
 
 resource "aws_s3_bucket_object" "this" {
   bucket = var.bucket_name
-  key    = var.lambda_path_s3
+  key    = var.lambda_s3_key
   source = data.archive_file.zipit.output_path
 }
 
 resource "aws_lambda_function" "this" {
   function_name    = var.lambda_name
   description      = var.description
-  filename         = var.lambda_path_output
-  s3_bucket        = var.bucket_id
-  s3_key           = var.lambda_path_s3
+  s3_bucket        = var.bucket_name
+  s3_key           = aws_s3_bucket_object.this.key
   handler          = var.handler
+  source_code_hash = base64sha256(data.archive_file.zipit.output_path)
   runtime          = var.runtime
   memory_size      = var.memory_size
   timeout          = var.timeout
@@ -25,12 +25,6 @@ resource "aws_lambda_function" "this" {
   publish          = var.publish
   tags             = var.tags
 
-  dynamic "environment" {
-    for_each = length(var.environment_variables) > 0 ? [var.environment_variables] : []
-    content {
-      variables = environment.value
-    }
-  }
 
   // vpc_config {
   //   subnet_ids         = var.subnet_ids

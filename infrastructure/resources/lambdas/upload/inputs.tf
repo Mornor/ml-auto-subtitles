@@ -18,6 +18,10 @@ variable "lambda_name" {
   type = string
 }
 
+variable "description" {
+  type = string
+}
+
 variable "handler" {
   type = string
 }
@@ -35,7 +39,7 @@ variable "timeout" {
 }
 
 variable "role_arn" {
-  type = number
+  type = string
 }
 
 variable "publish" {
@@ -43,9 +47,5 @@ variable "publish" {
 }
 
 variable "tags" {
-  type = map
-}
-
-variable "environment_variables" {
   type = map
 }

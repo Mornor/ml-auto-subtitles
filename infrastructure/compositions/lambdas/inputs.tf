@@ -2,28 +2,44 @@ variable "region" {
   type = string
 }
 
+variable "publish" {
+  type = bool
+}
+
+variable "runtime" {
+  type = string
+}
+
+variable "memory_size" {
+  type = number
+}
+
+variable "timeout" {
+  type = number
+}
+
 variable "lambda_extract_sound_s3_key" {
   type = string
 }
 
-variable "lambda_extract_sound_lambda_name" {
+variable "lambda_extract_sound_policy_path" {
+  type = string
+}
+
+variable "lambda_extract_sound_description" {
+  type = string
+}
+
+variable "lambda_extract_sound_policy_name" {
+  type = string
+}
+
+variable "lambda_extract_sound_name" {
   type = string
 }
 
 variable "lambda_extract_sound_handler" {
   type = string
-}
-
-variable "lambda_extract_sound_runtime" {
-  type = string
-}
-
-variable "lambda_extract_sound_mem_size" {
-  type = string
-}
-
-variable "lambda_extract_sound_timeout" {
-  type = number
 }
 
 variable "lambda_extract_sound_input_path" {
@@ -32,10 +48,6 @@ variable "lambda_extract_sound_input_path" {
 
 variable "lambda_extract_sound_output_path" {
   type = string
-}
-
-variable "lambda_extract_sound_publish" {
-  type = bool
 }
 
 variable "lambda_trust_policy" {

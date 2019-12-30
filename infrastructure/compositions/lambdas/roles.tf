@@ -2,9 +2,9 @@
 
 # Extract sound Lambda, need to access the app_bucket
 data "template_file" "extract_sound" {
-  template = file(var.lambda_extract_sound_policy)
+  template = file(var.lambda_extract_sound_policy_path)
   vars = {
-    app_bucket_arn = terraform_remote_state.app_bucket.arn
+    app_bucket_arn = data.terraform_remote_state.app_bucket.outputs.bucket_arn
   }
 }
 
@@ -22,6 +22,6 @@ module "lambda_extract_sound_policy" {
 
 module "lambda_extract_sound_policy_attachment" {
   source     = "../../resources/iam/policy_attachment"
-  role_name  = var.lambda_extract_sound_policy_name
+  role_name  = module.lambda_extract_sound_role.name
   policy_arn = module.lambda_extract_sound_policy.arn
 }
