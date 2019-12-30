@@ -12,18 +12,18 @@ resource "aws_s3_bucket_object" "this" {
 }
 
 resource "aws_lambda_function" "this" {
-  function_name    = var.lambda_name
-  description      = var.description
-  s3_bucket        = var.bucket_name
-  s3_key           = aws_s3_bucket_object.this.key
-  handler          = var.handler
+  function_name = var.lambda_name
+  description   = var.description
+  s3_bucket     = var.bucket_name
+  s3_key        = aws_s3_bucket_object.this.key
+  handler       = var.handler
   //source_code_hash = base64sha256(data.archive_file.zipit.output_path)
-  runtime          = var.runtime
-  memory_size      = var.memory_size
-  timeout          = var.timeout
-  role             = var.role_arn
-  publish          = var.publish
-  tags             = var.tags
+  runtime     = var.runtime
+  memory_size = var.memory_size
+  timeout     = var.timeout
+  role        = var.role_arn
+  publish     = var.publish
+  tags        = var.tags
 
 
   // vpc_config {

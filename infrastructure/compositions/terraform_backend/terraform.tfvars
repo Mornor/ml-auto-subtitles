@@ -12,11 +12,11 @@ ignore_public_acls      = true
 restrict_public_buckets = true
 
 # DynamoDB Lock table vars
-dynamodb_name           = "dynamo-ec1-subtitles-terraform-lock"
-read_capacity           = 2
-write_capacity          = 2
-hash_key                = "LockID"
-sse_enabled             = true
+dynamodb_name  = "dynamo-ec1-subtitles-terraform-lock"
+read_capacity  = 2
+write_capacity = 2
+hash_key       = "LockID"
+sse_enabled    = true
 attribute = [{
   name = "LockID"
   type = "S"

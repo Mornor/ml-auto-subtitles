@@ -47,6 +47,6 @@ data "aws_iam_policy_document" "bucket_policy" {
 
 locals {
   s3_app_bucket_tags = {
-    Name  = "s3-app-bucket"
+    Name = "s3-app-bucket"
   }
 }
