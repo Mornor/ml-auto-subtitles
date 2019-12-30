@@ -53,3 +53,7 @@ variable "lambda_extract_sound_output_path" {
 variable "lambda_trust_policy" {
   type = string
 }
+
+variable "lambda_extract_sound_s3_event_filter_prefix" {
+  type = string
+}

@@ -17,7 +17,7 @@ resource "aws_lambda_function" "this" {
   s3_bucket        = var.bucket_name
   s3_key           = aws_s3_bucket_object.this.key
   handler          = var.handler
-  source_code_hash = base64sha256(data.archive_file.zipit.output_path)
+  //source_code_hash = base64sha256(data.archive_file.zipit.output_path)
   runtime          = var.runtime
   memory_size      = var.memory_size
   timeout          = var.timeout
@@ -30,4 +30,23 @@ resource "aws_lambda_function" "this" {
   //   subnet_ids         = var.subnet_ids
   //   security_group_ids = var.security_group_ids
   // }
+}
+
+# Allow Lambda to be invoked from S3
+resource "aws_lambda_permission" "allow_bucket" {
+  statement_id  = "AllowExecutionFromS3Bucket"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.this.arn
+  principal     = "s3.amazonaws.com"
+  source_arn    = var.app_bucket_arn
+}
+
+resource "aws_s3_bucket_notification" "this" {
+  bucket = var.app_bucket_id
+
+  lambda_function {
+    lambda_function_arn = aws_lambda_function.this.arn
+    events              = ["s3:ObjectCreated:*"]
+    filter_prefix       = var.s3_event_filter_prefix
+  }
 }

@@ -42,10 +42,22 @@ variable "role_arn" {
   type = string
 }
 
+variable "app_bucket_id" {
+  type = string
+}
+
+variable "app_bucket_arn" {
+  type = string
+}
+
 variable "publish" {
   type = bool
 }
 
 variable "tags" {
   type = map
+}
+
+variable "s3_event_filter_prefix" {
+  type = string
 }
