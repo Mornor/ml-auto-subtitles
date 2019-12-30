@@ -8,7 +8,7 @@
                 "s3:PutObject"
             ],
             "Resource": [
-                "{app_bucket_arn}/*"
+                "${app_bucket_arn}/*"
             ]
         }
     ]
