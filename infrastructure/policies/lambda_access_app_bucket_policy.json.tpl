@@ -10,6 +10,16 @@
             "Resource": [
                 "${app_bucket_arn}/*"
             ]
+        },{
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": [
+                "*"
+            ]
         }
     ]
 }

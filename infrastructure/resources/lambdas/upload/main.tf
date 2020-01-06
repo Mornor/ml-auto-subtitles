@@ -50,3 +50,8 @@ resource "aws_s3_bucket_notification" "this" {
     filter_prefix       = var.s3_event_filter_prefix
   }
 }
+
+# Create the Cloudwatch log groups associated to the Lambda
+resource "aws_cloudwatch_log_group" "this" {
+  name = "/aws/lambda/${var.lambda_name}"
+}
