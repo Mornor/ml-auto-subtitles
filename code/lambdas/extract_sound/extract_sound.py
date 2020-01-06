@@ -15,15 +15,15 @@ def upload_audio():
   print('TODO')
 
 def handler(event, context):
-    # Retrieve bucket name and file_key from the S3 event
-    bucket_name = event['Records'][0]['s3']['bucket']['name']
-    file_key = event['Records'][0]['s3']['object']['key']
-    s3 = boto3.resource('s3')
-    data_stream = io.BytesIO()
-    s3.meta.client.download_fileobj(bucket_name, file_key, data_stream)
-    print('Bucket = ' +bucket_name)
-    print('File key = ' +file_key)
-    return None
+  # Retrieve bucket name and file_key from the S3 event
+  bucket_name = event['Records'][0]['s3']['bucket']['name']
+  file_key = event['Records'][0]['s3']['object']['key']
+  s3 = boto3.resource('s3')
+  data_stream = io.BytesIO()
+  s3.meta.client.download_fileobj(bucket_name, file_key, data_stream)
+  print('Bucket = ' +bucket_name)
+  print('File key = ' +file_key)
+  return None
 
 
 
