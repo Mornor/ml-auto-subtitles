@@ -17,14 +17,19 @@ resource "aws_lambda_function" "this" {
   s3_bucket     = var.bucket_name
   s3_key        = aws_s3_bucket_object.this.key
   handler       = var.handler
-  //source_code_hash = base64sha256(data.archive_file.zipit.output_path)
-  runtime     = var.runtime
-  memory_size = var.memory_size
-  timeout     = var.timeout
-  role        = var.role_arn
-  publish     = var.publish
-  tags        = var.tags
+  runtime       = var.runtime
+  memory_size   = var.memory_size
+  timeout       = var.timeout
+  role          = var.role_arn
+  publish       = var.publish
+  tags          = var.tags
 
+  dynamic "environment" {
+    for_each = length(var.environment_variables) > 0 ? [var.environment_variables] : []
+    content {
+      variables = environment.value
+    }
+  }
 
   // vpc_config {
   //   subnet_ids         = var.subnet_ids

@@ -61,3 +61,7 @@ variable "tags" {
 variable "s3_event_filter_prefix" {
   type = string
 }
+
+variable "environment_variables" {
+  type = map
+}

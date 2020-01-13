@@ -20,7 +20,13 @@ data "terraform_remote_state" "app_bucket" {
 }
 
 locals {
-  lambda_extract_sound_tags = {
-    Name = var.lambda_extract_sound_name
+  sqs_tags = {
+    Name = var.sqs_name
+  }
+  lambda_input_to_sqs_tags = {
+    Name = var.lambda_input_to_sqs_name
+  }
+  lambda_input_to_sqs_env_variables = {
+    queue_url = module.sqs_inputs.url
   }
 }
