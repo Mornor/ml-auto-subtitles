@@ -9,3 +9,6 @@
 
 [TODO]
 - Add permissions to S3 Bucket so that Lambda can read/write to/from it.
+
+[Problem]
+- Not possible to extract sound w/ lambda because Numpy cannot be added to a Python package.
