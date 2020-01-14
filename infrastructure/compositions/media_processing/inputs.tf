@@ -65,3 +65,7 @@ variable "sqs_name" {
 variable "sqs_message_retention_seconds" {
   type = number
 }
+
+variable "ecr_name" {
+  type = string
+}

@@ -22,3 +22,6 @@ lambda_input_to_sqs_description             = "Push S3 file path from /input to 
 # SQS attribute
 sqs_name                      = "sqs_input"
 sqs_message_retention_seconds = 345600
+
+# ECR attributes
+ecr_name = "ecr_media_processing"
