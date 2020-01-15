@@ -3,14 +3,13 @@ import string
 import json
 import random
 import botocore
-from botocore.exceptions import ClientError
 import os
+from botocore.exceptions import ClientError
 from moviepy.editor import AudioFileClip
 
 def randomize_job_name():
   letters = string.ascii_lowercase
   return ''.join(random.choice(letters) for i in range(6))
-
 
 def get_data_from_sqs(queue_url):
   client = boto3.client('sqs')
@@ -20,7 +19,6 @@ def get_data_from_sqs(queue_url):
       WaitTimeSeconds=20
   )
   return response
-
 
 def parse_sqs_message(response_sqs_message):
   if 'Messages' not in response_sqs_message:
@@ -41,7 +39,6 @@ def parse_sqs_message(response_sqs_message):
       return 'Error'
 
   return bucket, key, receipt_handle
-
 
 def get_env_variable(variable_name):
   return 'https://sqs.eu-central-1.amazonaws.com/453119308637/sqs_input'
@@ -64,7 +61,8 @@ def get_file_from_s3(bucket, s3_key, receipt_handle, tmp_local_file_name):
   print('Downloading from S3: '+bucket+'/'+s3_key)
   s3 = boto3.resource('s3')
   try:
-    s3.meta.client.download_file(bucket, s3_key, '/tmp/'+tmp_local_file_name+'.mp4')
+    #s3.meta.client.download_file(bucket, s3_key, '/tmp/'+tmp_local_file_name+'.mp4')
+    s3.meta.client.download_file(bucket, s3_key, './'+tmp_local_file_name+'.mp4')
   except botocore.exceptions.ClientError as e:
     if e.response['Error']['Code'] == '404':
         print('The object '+s3_key+' does not exist in the Bucket ['+bucket+'].')
@@ -73,12 +71,22 @@ def get_file_from_s3(bucket, s3_key, receipt_handle, tmp_local_file_name):
     print('Remvoving message from SQS')
     remove_message_from_queue(receipt_handle)
 
-  print('File downloaded into /tmp/'+tmp_local_file_name+'.mp4')
+  #tmp_path = '/tmp/'+tmp_local_file_name+'.mp4'
+  tmp_path = './'+tmp_local_file_name+'.mp4'
+  print('File downloaded into '+tmp_path)
+  return tmp_path
+
+def extract_sound_from_video(video_path, output_path):
+  audio = AudioFileClip(video_path)
+  # audio.write_audiofile('./audio.mp3')
+  audio.write_audiofile('./'+output_path+'.mp3')
 
 def run():
   sqs_message = get_data_from_sqs(get_env_variable('SQS_QUEUE_URL'))
   bucket, key, receipt_handle = parse_sqs_message(sqs_message)
-  get_file_from_s3(bucket, key, receipt_handle, randomize_job_name())
+  randomized_file_name = randomize_job_name()
+  tmp_video_path = get_file_from_s3(bucket, key, receipt_handle, randomized_file_name)
+  extract_sound_from_video(tmp_video_path, randomized_file_name)
   # print('Extracting sound')
   # audio = AudioFileClip(video_path)
   # audio.write_audiofile('./audio.mp3')
