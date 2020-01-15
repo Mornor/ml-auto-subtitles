@@ -34,9 +34,9 @@ def parse_sqs_message(response_sqs_message):
 
   # If any of the variables have not been sent exit
   if bucket is None or key is None:
-      print('SQS message missing value: Bucket = '+bucket+', key = '+key)
-      print('Removing message from queue. Resubmit config to retry')
-      return 'Error'
+    print('SQS message missing value: Bucket = '+bucket+', key = '+key)
+    print('Removing message from queue. Resubmit config to retry')
+    return 'Error'
 
   return bucket, key, receipt_handle
 
@@ -61,7 +61,6 @@ def get_file_from_s3(bucket, s3_key, receipt_handle, tmp_local_file_name):
   print('Downloading from S3: '+bucket+'/'+s3_key)
   s3 = boto3.resource('s3')
   try:
-    #s3.meta.client.download_file(bucket, s3_key, '/tmp/'+tmp_local_file_name+'.mp4')
     s3.meta.client.download_file(bucket, s3_key, './'+tmp_local_file_name+'.mp4')
   except botocore.exceptions.ClientError as e:
     if e.response['Error']['Code'] == '404':
@@ -71,15 +70,22 @@ def get_file_from_s3(bucket, s3_key, receipt_handle, tmp_local_file_name):
     print('Remvoving message from SQS')
     remove_message_from_queue(receipt_handle)
 
-  #tmp_path = '/tmp/'+tmp_local_file_name+'.mp4'
   tmp_path = './'+tmp_local_file_name+'.mp4'
   print('File downloaded into '+tmp_path)
   return tmp_path
 
 def extract_sound_from_video(video_path, output_path):
+  print('Extracting sound from video ['+video_path+']')
   audio = AudioFileClip(video_path)
-  # audio.write_audiofile('./audio.mp3')
   audio.write_audiofile('./'+output_path+'.mp3')
+  print('Sound extracted and saved under [./'+output_path+'.mp3]')
+
+def upload_sound_to_s3(sound_path, bucket, file_name):
+  print('Uploading extracted sound ['+sound_path+'] to S3')
+  s3 = boto3.resource('s3')
+  s3.meta.client.upload_file(sound_path, bucket, 'tmp/'+file_name+'.mp3')
+  print('Sound uploaded to Bucket ['+bucket+'] under [tmp/'+file_name+'.mp3]')
+
 
 def run():
   sqs_message = get_data_from_sqs(get_env_variable('SQS_QUEUE_URL'))
@@ -87,9 +93,7 @@ def run():
   randomized_file_name = randomize_job_name()
   tmp_video_path = get_file_from_s3(bucket, key, receipt_handle, randomized_file_name)
   extract_sound_from_video(tmp_video_path, randomized_file_name)
-  # print('Extracting sound')
-  # audio = AudioFileClip(video_path)
-  # audio.write_audiofile('./audio.mp3')
+  upload_sound_to_s3(tmp_video_path, bucket, randomized_file_name)
 
-#run('video.mp4')
+
 run()
