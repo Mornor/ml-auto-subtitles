@@ -25,3 +25,10 @@ sqs_message_retention_seconds = 345600
 
 # ECR attributes
 ecr_name = "ecr_media_processing"
+
+# ECS attributes
+ecs_task_name = "extract_sound"
+ecs_type = "FARGATE"
+ecs_cpu = 256
+ecs_mem = 512
+ecs_definition_path = "../../ecs_definition/ecs_definition.json.tpl"
