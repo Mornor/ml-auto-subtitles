@@ -41,12 +41,11 @@ def parse_sqs_message(response_sqs_message):
   return bucket, key, receipt_handle
 
 def get_env_variable(variable_name):
-  return 'https://sqs.eu-central-1.amazonaws.com/453119308637/sqs_input'
-  # try:
-  #     result = os.environ[variable_name]
-  # except KeyError:
-  #     raise Exception(variable_name+ ' is not set, please check your ECS environment variables')
-  # return result
+  try:
+      result = os.environ[variable_name]
+  except KeyError:
+      raise Exception(variable_name+ ' is not set, please check your ECS environment variables')
+  return result
 
 def remove_message_from_queue(receipt_handle):
   print('Removing message from queue. Receipt handle: '+receipt_handle)
