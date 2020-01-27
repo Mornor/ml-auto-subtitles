@@ -32,3 +32,7 @@ ecs_type = "FARGATE"
 ecs_cpu = 256
 ecs_mem = 512
 ecs_definition_path = "../../ecs_definition/ecs_definition.json.tpl"
+
+# ECS IAM
+ecs_task_role_name = "ecs_trust_policy"
+ecs_trust_policy   = "../../policies/ecs_trust_policy.json"

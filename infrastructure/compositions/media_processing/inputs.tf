@@ -69,3 +69,11 @@ variable "sqs_message_retention_seconds" {
 variable "ecr_name" {
   type = string
 }
+
+variable "ecs_task_role_name" {
+  type = string
+}
+
+variable "ecs_trust_policy" {
+  type = string
+}

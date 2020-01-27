@@ -4,6 +4,6 @@ resource "aws_ecs_task_definition" "this" {
   cpu                      = var.ecs_cpu
   memory                   = var.ecs_mem
   execution_role_arn       = var.ecs_execution_role_arn
-  task_role_arn            = var.var.ecs_execution_role_arn
+  task_role_arn            = var.ecs_execution_role_arn
   container_definitions    = var.ecs_definition
 }

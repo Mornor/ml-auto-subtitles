@@ -26,3 +26,15 @@ module "lambda_input_to_sqs_policy_attachment" {
   role_name  = module.lambda_input_to_sqs_role.name
   policy_arn = module.lambda_input_to_sqs_policy.arn
 }
+
+# ECS task role
+module "ecs_task_role" {
+  source             = "../../resources/iam/role"
+  role_name          = var.ecs_task_role_name
+  assume_role_policy = file(var.ecs_trust_policy)
+}
+
+# ECS Task Execution role
+module "ecs_task_execution_role" {
+
+}
