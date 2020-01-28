@@ -1,4 +1,5 @@
 resource "aws_ecs_task_definition" "this" {
+  network_mode             = var.network_mode
   family                   = var.ecs_task_name
   requires_compatibilities = [var.ecs_type]
   cpu                      = var.ecs_cpu

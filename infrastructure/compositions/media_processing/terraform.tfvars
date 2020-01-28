@@ -26,16 +26,20 @@ sqs_message_retention_seconds = 345600
 # ECR attributes
 ecr_name = "ecr_media_processing"
 
+# ECS Cluster
+ecs_cluster_name = "extract_sound_cluster"
+
 # ECS attributes
 ecs_task_name = "extract_sound"
 ecs_type = "FARGATE"
 ecs_cpu = 256
 ecs_mem = 512
 ecs_definition_path = "../../ecs_definition/ecs_definition.json.tpl"
+ecs_network_mode = "awsvpc"
 
 # ECS IAM
 ecs_task_role_name              = "ecs_task_role"
 ecs_task_execution_policy_name  = "policy_ecs_task_execution_role"
 ecs_task_execution_role_name    = "ecs_task_execution"
 ecs_trust_policy                = "../../policies/ecs_trust_policy.json"
-ecs_task_execution_policy_path  = "../../policies/ecs_task_execution_role.json.tpl"
+ecs_task_execution_policy_path  = "../../policies/ecs_task_execution_policy.json.tpl"

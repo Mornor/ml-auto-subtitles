@@ -25,3 +25,7 @@ variable "ecs_execution_role_arn" {
 variable "ecs_task_definition" {
   type = any
 }
+
+variable "network_mode" {
+  type = string
+}

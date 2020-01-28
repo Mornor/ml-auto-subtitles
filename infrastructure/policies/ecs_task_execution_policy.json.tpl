@@ -5,7 +5,7 @@
             "Effect": "Allow",
             "Action": [
                 "sqs:SendMessage",
-                "sqs:ReceiveMessage",
+                "sqs:ReceiveMessage"
             ],
             "Resource": [
                 "${sqs_arn}"

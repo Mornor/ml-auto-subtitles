@@ -109,3 +109,11 @@ variable "ecs_task_execution_role_name" {
 variable "ecs_task_execution_policy_path" {
   type = string
 }
+
+variable "ecs_network_mode" {
+  type = string
+}
+
+variable "ecs_cluster_name" {
+  type = string
+}
