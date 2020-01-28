@@ -17,7 +17,7 @@ module "ecs" {
   ecs_type                = var.ecs_type
   ecs_cpu                 = var.ecs_cpu
   ecs_mem                 = var.ecs_mem
-  ecs_task_definition     = file(data.template_file.ecs_task_definition.rendered)
+  ecs_task_definition     = data.template_file.ecs_task_definition.rendered
   ecs_task_role_arn       = module.ecs_task_role.arn
-  ecs_execution_role_arn  = var.ecs_execution_role_arn
+  ecs_execution_role_arn  = module.ecs_task_execution_role.arn
 }

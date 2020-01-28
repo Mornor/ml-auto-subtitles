@@ -77,3 +77,35 @@ variable "ecs_task_role_name" {
 variable "ecs_trust_policy" {
   type = string
 }
+
+variable "ecs_task_name" {
+  type = string
+}
+
+variable "ecs_type" {
+  type = string
+}
+
+variable "ecs_cpu" {
+  type = string
+}
+
+variable "ecs_mem" {
+  type = string
+}
+
+variable "ecs_definition_path" {
+  type = string
+}
+
+variable "ecs_task_execution_policy_name" {
+  type = string
+}
+
+variable "ecs_task_execution_role_name" {
+  type = string
+}
+
+variable "ecs_task_execution_policy_path" {
+  type = string
+}

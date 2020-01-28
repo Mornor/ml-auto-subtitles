@@ -34,5 +34,8 @@ ecs_mem = 512
 ecs_definition_path = "../../ecs_definition/ecs_definition.json.tpl"
 
 # ECS IAM
-ecs_task_role_name = "ecs_trust_policy"
-ecs_trust_policy   = "../../policies/ecs_trust_policy.json"
+ecs_task_role_name              = "ecs_task_role"
+ecs_task_execution_policy_name  = "policy_ecs_task_execution_role"
+ecs_task_execution_role_name    = "ecs_task_execution"
+ecs_trust_policy                = "../../policies/ecs_trust_policy.json"
+ecs_task_execution_policy_path  = "../../policies/ecs_task_execution_role.json.tpl"
