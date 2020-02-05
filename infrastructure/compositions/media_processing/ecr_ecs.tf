@@ -17,7 +17,7 @@ module "ecs_cluster" {
 }
 
 # ECS Task definitiom
-module "ecs_task" {
+module "ecs_task_definition" {
   source                  = "../../resources/container/ecs/task_definition"
   ecs_task_name           = var.ecs_task_name
   ecs_type                = var.ecs_type

@@ -117,3 +117,11 @@ variable "ecs_network_mode" {
 variable "ecs_cluster_name" {
   type = string
 }
+
+variable "ecs_service_launch_type" {
+  type = string
+}
+
+variable "ecs_service_name" {
+  type = string
+}
