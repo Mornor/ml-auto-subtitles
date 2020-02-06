@@ -34,6 +34,12 @@ module "ecs_task_role" {
   assume_role_policy = file(var.ecs_trust_policy)
 }
 
+module "ecs_task_role_policy_attachment" {
+  source     = "../../resources/iam/policy_attachment"
+  role_name  = var.ecs_task_role_name
+  policy_arn = module.ecs_task_execution_policy.arn
+}
+
 # ECS Task Execution role
 data "template_file" "ecs_task_execution_policy_template" {
   template = file(var.ecs_task_execution_policy_path)
@@ -55,8 +61,10 @@ module "ecs_task_execution_role" {
   assume_role_policy = file(var.ecs_trust_policy)
 }
 
-module "ecs_role_policy_attachment" {
+module "ecs_task_execution_role_policy_attachment" {
   source     = "../../resources/iam/policy_attachment"
   role_name  = module.ecs_task_execution_role.name
   policy_arn = module.ecs_task_execution_policy.arn
 }
+
+# TODO - Might need to remove the may be useless ecs_task_execution_role
