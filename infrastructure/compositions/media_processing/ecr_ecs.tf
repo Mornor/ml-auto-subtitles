@@ -7,7 +7,6 @@ module "ecr" {
 # ECS is
 // - Container definition
 // - Task definition
-// - Service
 // - Cluster
 
 # ECS Cluster
