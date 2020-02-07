@@ -6,6 +6,10 @@ variable "private_subnet_id" {
   type = string
 }
 
+variable "public_subnet_id" {
+  type = string
+}
+
 variable "vpc_main_rt" {
   type = string
 }

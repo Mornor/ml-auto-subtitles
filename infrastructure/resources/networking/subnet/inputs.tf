@@ -2,10 +2,14 @@ variable "vpc_id" {
   type = string
 }
 
-variable "private_subnet_cidr_block" {
+variable "subnet_cidr_block" {
   type = string
 }
 
-variable "private_subnet_tags" {
+variable "subnet_tags" {
   type = map
+}
+
+variable "assign_public" {
+  type = bool
 }
