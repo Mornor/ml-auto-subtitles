@@ -79,20 +79,22 @@ def extract_sound_from_video(video_path, output_path):
   audio.write_audiofile('./'+output_path+'.mp3')
   print('Sound extracted and saved under [./'+output_path+'.mp3]')
 
-def upload_sound_to_s3(sound_path, bucket, file_name):
-  print('Uploading extracted sound ['+sound_path+'] to S3')
+def upload_sound_to_s3(bucket, file_name):
+  print('Uploading extracted sound ['+file_name+'.mp3] to S3')
   s3 = boto3.resource('s3')
-  s3.meta.client.upload_file(sound_path, bucket, 'tmp/'+file_name+'.mp3')
+  s3.meta.client.upload_file('./'+file_name+'.mp3', bucket, 'tmp/'+file_name+'.mp3')
   print('Sound uploaded to Bucket ['+bucket+'] under [tmp/'+file_name+'.mp3]')
 
-
 def run():
+  print('Getting meesage from SQS - '+get_env_variable('SQS_QUEUE_URL'))
   sqs_message = get_data_from_sqs(get_env_variable('SQS_QUEUE_URL'))
+  if 'Messages' not in sqs_message:
+        print('No messages found in queue')
+        exit(-1)
   bucket, key, receipt_handle = parse_sqs_message(sqs_message)
   randomized_file_name = randomize_job_name()
   tmp_video_path = get_file_from_s3(bucket, key, receipt_handle, randomized_file_name)
   extract_sound_from_video(tmp_video_path, randomized_file_name)
-  upload_sound_to_s3(tmp_video_path, bucket, randomized_file_name)
-
+  upload_sound_to_s3(bucket, randomized_file_name)
 
 run()
