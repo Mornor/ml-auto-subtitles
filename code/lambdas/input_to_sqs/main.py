@@ -1,3 +1,10 @@
+"""
+_1st Lambda to be called_
+Triggered when the video file is uploaded into the Bucket under /inputs
+- Retrieve the name of the video file which has been uploaded
+- Send a message to the SQS queue with the name of the file along with the bucket
+"""
+
 import boto3
 import os
 

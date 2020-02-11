@@ -1,6 +1,5 @@
 import boto3
 import string
-import json
 import random
 import botocore
 import os

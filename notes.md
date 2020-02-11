@@ -11,7 +11,8 @@
 - Add permissions to S3 Bucket so that Lambda can read/write to/from it.
 - Check what's the difference between ecs_task_role and ecs_task_execution_role, and which one I need.
 - Handle failure on the ECS container (no SQS message etc ...)
-- Delete SQS message once sound is extracted
+- Delete SQS message once sound is extracted.
+- May be create a SG to run the ECS task (right now, it uses the default SG of the VPC).
 
 [Problem]
 - Not possible to extract sound w/ lambda because Numpy cannot be added to a Python package.
