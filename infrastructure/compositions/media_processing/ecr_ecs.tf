@@ -12,7 +12,7 @@ module "ecr" {
 # ECS Cluster
 module "ecs_cluster" {
   source = "../../resources/container/ecs/cluster"
-  name = var.ecs_cluster_name
+  name   = var.ecs_cluster_name
 }
 
 # ECS Task definitiom

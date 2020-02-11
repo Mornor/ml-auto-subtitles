@@ -12,3 +12,4 @@
 
 [Problem]
 - Not possible to extract sound w/ lambda because Numpy cannot be added to a Python package.
+- ECS Cluster, and how I implemented it.
