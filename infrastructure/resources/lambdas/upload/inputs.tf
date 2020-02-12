@@ -43,11 +43,13 @@ variable "role_arn" {
 }
 
 variable "app_bucket_id" {
-  type = string
+  type    = string
+  default = ""
 }
 
 variable "app_bucket_arn" {
-  type = string
+  type    = string
+  default = ""
 }
 
 variable "publish" {
@@ -59,9 +61,14 @@ variable "tags" {
 }
 
 variable "s3_event_filter_prefix" {
-  type = string
+  type    = string
+  default = ""
 }
 
 variable "environment_variables" {
   type = map
+}
+
+variable "triggered_by" {
+  type = string
 }

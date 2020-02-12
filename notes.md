@@ -13,6 +13,7 @@
 - Handle failure on the ECS container (no SQS message etc ...)
 - Delete SQS message once sound is extracted.
 - May be create a SG to run the ECS task (right now, it uses the default SG of the VPC).
+- Put the Lambdas inside VPC and create interface endpoints, so that communications does not go through Internet.
 
 [Problem]
 - Not possible to extract sound w/ lambda because Numpy cannot be added to a Python package.

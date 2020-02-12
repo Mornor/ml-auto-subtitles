@@ -8,6 +8,7 @@ import os
 
 # TASK_DEFINITION_NAME = "extract_sound"
 # CLUSTER_NAME = "extract_sound_cluster"
+# private_subnet_id = get_env_variable('SUBNET_ID')
 
 def get_env_variable(variable_name):
   try:
@@ -17,9 +18,9 @@ def get_env_variable(variable_name):
   return result
 
 def handler(event, context):
-  cluster_name = get_env_variable('CLUSTER_NAME')
-  private_subnet_id = get_env_variable('SUBNET_ID')
-  task_defintion_name = get_env_variable('TASK_DEFINITION_NAME')
+  cluster_name = get_env_variable('cluster_name')
+  private_subnet_id = get_env_variable('subnet_id')
+  task_defintion_name = get_env_variable('task_definition_name')
 
   print('Launching ['+task_defintion_name+'] on the ECS cluster ['+cluster_name+'], running on Subnet ID ['+private_subnet_id+']')
   response = boto3.client("ecs").run_task(

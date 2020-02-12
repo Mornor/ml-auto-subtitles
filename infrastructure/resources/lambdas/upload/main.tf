@@ -39,6 +39,7 @@ resource "aws_lambda_function" "this" {
 
 # Allow Lambda to be invoked from S3
 resource "aws_lambda_permission" "this" {
+  count         = var.triggered_by == "S3" && var.app_bucket_arn != "" ? 1 : 0
   statement_id  = "AllowExecutionFromS3Bucket"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.this.arn
@@ -46,7 +47,9 @@ resource "aws_lambda_permission" "this" {
   source_arn    = var.app_bucket_arn
 }
 
+# Trigger the Lambda when an object is created under var.s3_event_filter_prefix
 resource "aws_s3_bucket_notification" "this" {
+  count  = var.triggered_by == "S3" && var.s3_event_filter_prefix != "" && var.app_bucket_id != "" ? 1 : 0
   bucket = var.app_bucket_id
 
   lambda_function {

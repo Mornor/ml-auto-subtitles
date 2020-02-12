@@ -1,24 +1,3 @@
-# Remote state
-data "terraform_remote_state" "lambda_bucket" {
-  backend = "s3"
-
-  config = {
-    bucket = "s3-ec1-subtitles-bucket-state-files"
-    key    = "app/lambdas_bucket/terraform.tfstate"
-    region = var.region
-  }
-}
-
-data "terraform_remote_state" "app_bucket" {
-  backend = "s3"
-
-  config = {
-    bucket = "s3-ec1-subtitles-bucket-state-files"
-    key    = "app/bucket/terraform.tfstate"
-    region = var.region
-  }
-}
-
 locals {
   sqs_tags = {
     Name = var.sqs_name
@@ -28,5 +7,13 @@ locals {
   }
   lambda_input_to_sqs_env_variables = {
     queue_url = module.sqs_inputs.url
+  }
+  lambda_trigger_ecs_task_tags = {
+    Name = var.lambda_trigger_ecs_task_name
+  }
+  lambda_trigger_ecs_task_env_variables = {
+    cluster_name         = var.ecs_cluster_name
+    private_subnet_id    = data.terraform_remote_state.networking.outputs.private_subnet_id
+    task_definition_name = var.ecs_task_name
   }
 }

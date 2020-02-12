@@ -125,3 +125,43 @@ variable "ecs_service_launch_type" {
 variable "ecs_service_name" {
   type = string
 }
+
+variable "lambda_input_to_sqs_triggered_by" {
+  type = string
+}
+
+variable "lambda_trigger_ecs_task_input_path" {
+  type = string
+}
+
+variable "lambda_trigger_ecs_task_output_path" {
+  type = string
+}
+
+variable "lambda_trigger_ecs_task_policy_path" {
+  type = string
+}
+
+variable "lambda_trigger_ecs_task_policy_name" {
+  type = string
+}
+
+variable "lambda_trigger_ecs_task_s3_key" {
+  type = string
+}
+
+variable "lambda_trigger_ecs_task_name" {
+  type = string
+}
+
+variable "lambda_trigger_ecs_task_handler" {
+  type = string
+}
+
+variable "lambda_trigger_ecs_task_triggered_by" {
+  type = string
+}
+
+variable "lambda_trigger_ecs_task_description" {
+  type = string
+}
