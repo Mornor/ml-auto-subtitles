@@ -65,6 +65,11 @@ variable "s3_event_filter_prefix" {
   default = ""
 }
 
+variable "sqs_queue_arn" {
+  type    = string
+  default = ""
+}
+
 variable "environment_variables" {
   type = map
 }

@@ -72,6 +72,7 @@ module "ecs_task_execution_role_policy_attachment" {
 data "template_file" "trigger_ecs_task_policy_template" {
   template = file(var.lambda_trigger_ecs_task_policy_path)
   vars = {
+    sqs_arn             = module.sqs_inputs.arn
     ecs_cluster_arn     = module.ecs_cluster.arn
     task_definition_arn = module.ecs_task_definition.arn
   }

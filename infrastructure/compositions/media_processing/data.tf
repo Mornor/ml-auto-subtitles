@@ -13,7 +13,7 @@ locals {
   }
   lambda_trigger_ecs_task_env_variables = {
     cluster_name         = var.ecs_cluster_name
-    private_subnet_id    = data.terraform_remote_state.networking.outputs.private_subnet_id
+    subnet_id            = data.terraform_remote_state.networking.outputs.private_subnet_id
     task_definition_name = var.ecs_task_name
   }
 }

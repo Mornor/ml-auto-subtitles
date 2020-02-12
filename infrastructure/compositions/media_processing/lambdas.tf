@@ -34,6 +34,7 @@ module "lambda_trigger_ecs_task" {
   timeout                = var.timeout
   publish                = var.publish
   role_arn               = module.lambda_trigger_ecs_task_role.arn
+  sqs_queue_arn          = module.sqs_inputs.arn
   environment_variables  = local.lambda_trigger_ecs_task_env_variables
   triggered_by           = var.lambda_trigger_ecs_task_triggered_by
   tags                   = local.lambda_trigger_ecs_task_tags

@@ -9,8 +9,7 @@
             "Resource": [
                 "${sqs_arn}"
             ]
-        },
-        {
+        },{
             "Effect": "Allow",
             "Action": [
                 "s3:GetObject",
