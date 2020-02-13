@@ -165,3 +165,7 @@ variable "lambda_trigger_ecs_task_triggered_by" {
 variable "lambda_trigger_ecs_task_description" {
   type = string
 }
+
+variable "ecs_container_name" {
+  type = string
+}

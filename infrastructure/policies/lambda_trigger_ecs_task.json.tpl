@@ -14,9 +14,19 @@
               }
             },
             "Resource": [
-                "${task_definition_arn}"
+                "arn:aws:ecs:${region}:${account_id}:task-definition/${task_definition_name}"
             ]
         },{
+            "Effect": "Allow",
+            "Action": [
+                "iam:PassRole"
+            ],
+            "Resource": [
+               "${ecs_task_execution_role_arn}",
+               "${ecs_task_role_arn}"
+            ]
+        },
+        {
             "Effect": "Allow",
             "Action": [
                 "sqs:ReceiveMessage",

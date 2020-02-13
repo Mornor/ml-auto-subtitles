@@ -1,3 +1,6 @@
+# Current account ID
+data "aws_caller_identity" "current" {}
+
 # Remote states
 data "terraform_remote_state" "networking" {
   backend = "s3"

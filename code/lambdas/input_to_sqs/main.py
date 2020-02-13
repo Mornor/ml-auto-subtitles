@@ -6,6 +6,7 @@ Triggered when the video file is uploaded into the Bucket under /inputs
 """
 
 import boto3
+import json
 import os
 
 def handler(event, context):
@@ -13,15 +14,21 @@ def handler(event, context):
   bucket_name = event['Records'][0]['s3']['bucket']['name']
   file_key = event['Records'][0]['s3']['object']['key']
 
-  print('Bucket = ' + bucket_name)
-  print('File key = ' + file_key)
+  print('Bucket = ' +bucket_name)
+  print('File key = ' +file_key)
 
-  # Insert S3 file path into SQS
+  # Define message to be sent to the SQS
+  message = {
+    "Bucket": bucket_name,
+    "object_path": file_key
+  }
+
+  # Insert message into SQS
   sqs_client = boto3.client('sqs')
   sqs_client.send_message(
       QueueUrl=os.environ['queue_url'],
-      MessageBody=bucket_name+'/'+file_key,
+      MessageBody=json.dumps(message)
   )
-  print('SQS message inserted in SQS FIFO')
+  print('SQS message inserted in SQS')
 
   return None

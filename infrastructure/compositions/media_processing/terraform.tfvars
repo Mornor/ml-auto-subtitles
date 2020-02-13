@@ -43,6 +43,7 @@ ecs_cluster_name = "extract_sound_cluster"
 
 # ECS attributes
 ecs_task_name       = "extract_sound"
+ecs_container_name  = "extract_sound_from_video"
 ecs_type            = "FARGATE"
 ecs_cpu             = 256
 ecs_mem             = 512

@@ -72,9 +72,13 @@ module "ecs_task_execution_role_policy_attachment" {
 data "template_file" "trigger_ecs_task_policy_template" {
   template = file(var.lambda_trigger_ecs_task_policy_path)
   vars = {
-    sqs_arn             = module.sqs_inputs.arn
-    ecs_cluster_arn     = module.ecs_cluster.arn
-    task_definition_arn = module.ecs_task_definition.arn
+    sqs_arn                     = module.sqs_inputs.arn
+    region                      = var.region
+    account_id                  = data.aws_caller_identity.current.account_id
+    ecs_cluster_arn             = module.ecs_cluster.arn
+    ecs_task_execution_role_arn = module.ecs_task_execution_role.arn
+    ecs_task_role_arn           = module.ecs_task_role.arn
+    task_definition_name        = var.ecs_task_name
   }
 }
 

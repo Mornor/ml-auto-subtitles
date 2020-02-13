@@ -19,3 +19,4 @@
 [Problem]
 - Not possible to extract sound w/ lambda because Numpy cannot be added to a Python package.
 - ECS Cluster, and how I implemented it.
+- A Lambda is used to trigger the ECS task. The ECS task was supposed to get the message from the SQS, but thgat does not work because the message is "in-flight" (being processed by the lambda). Solution is to send env variable read by the lambda from the SQS to the ECS.

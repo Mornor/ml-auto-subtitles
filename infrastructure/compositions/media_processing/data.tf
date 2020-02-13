@@ -15,5 +15,6 @@ locals {
     cluster_name         = var.ecs_cluster_name
     subnet_id            = data.terraform_remote_state.networking.outputs.private_subnet_id
     task_definition_name = var.ecs_task_name
+    container_name       = var.ecs_container_name
   }
 }
