@@ -7,10 +7,6 @@ import boto3
 import json
 import os
 
-# TASK_DEFINITION_NAME = "extract_sound"
-# CLUSTER_NAME = "extract_sound_cluster"
-# private_subnet_id = get_env_variable('SUBNET_ID')
-
 def get_env_variable(variable_name):
   try:
       result = os.environ[variable_name]

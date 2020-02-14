@@ -16,7 +16,7 @@
 - Put the Lambdas inside VPC and create interface endpoints, so that communications does not go through Internet.
 - In the s3-ec1-lambdas-bucket, there is no need to create folders. Remove them.
 - Check timeout of Lambda. Right now, it's 5 secs, might be too low.
-- If timeout is more, sometimes (to be confirmed), the Lambda triggers more than 1 task. Why?
+- If timeout is more than 5sec, sometimes (to be confirmed), the Lambda triggers more than 1 task. Why?
 
 [Problem]
 - Not possible to extract sound w/ lambda because Numpy cannot be added to a Python package.
