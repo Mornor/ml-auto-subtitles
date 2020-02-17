@@ -21,3 +21,15 @@ output "lambdas_bucket_name" {
 output "lambdas_bucket_id" {
   value = module.lambdas_bucket.id
 }
+
+output "transcribe_result_bucket_arn" {
+  value = module.transcribe_result_bucket.arn
+}
+
+output "transcribe_result_bucket_name" {
+  value = module.transcribe_result_bucket.name
+}
+
+output "transcribe_result_bucket_id" {
+  value = module.transcribe_result_bucket.id
+}

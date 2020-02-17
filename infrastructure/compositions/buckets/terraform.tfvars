@@ -16,4 +16,7 @@ restrict_public_buckets = true
 keys                    = ["inputs/", "tmp/", "outputs/"]
 
 # Lambdas Bucket
-lambdas_bucket_name     = "s3-ec1-lambdas-bucket"
+lambdas_bucket_name = "s3-ec1-lambdas-bucket"
+
+# Transcribe result Bucket
+transcribe_result_bucket_name = "s3-ec1-transcribe-result"

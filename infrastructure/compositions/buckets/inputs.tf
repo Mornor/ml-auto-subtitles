@@ -34,6 +34,10 @@ variable "app_bucket_policy_path" {
   type = string
 }
 
+variable "transcribe_result_bucket_name" {
+  type = string
+}
+
 variable "block_public_policy" {
   type = bool
 }

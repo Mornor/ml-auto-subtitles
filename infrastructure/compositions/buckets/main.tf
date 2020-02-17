@@ -37,3 +37,23 @@ module "lambdas_bucket" {
   restrict_public_buckets = var.restrict_public_buckets
   keys                    = []
 }
+
+# Hold the final Transcribe result
+module "transcribe_result_bucket" {
+  source                  = "../../resources/storage/s3"
+  bucket_name             = var.transcribe_result_bucket_name
+  region                  = var.region
+  acl                     = var.acl
+  force_destroy           = var.force_destroy
+  versioning_enabled      = var.versioning_enabled
+  versioning_mfa_delete   = var.versioning_mfa_delete
+  sse_algorithm           = var.sse_algorithm
+  tags                    = local.s3_transcribe_result_bucket_tags
+  block_public_policy     = var.block_public_policy
+  block_public_acls       = var.block_public_acls
+  policy_path             = var.app_bucket_policy_path
+  account_id              = data.aws_caller_identity.current.account_id
+  ignore_public_acls      = var.ignore_public_acls
+  restrict_public_buckets = var.restrict_public_buckets
+  keys                    = []
+}
