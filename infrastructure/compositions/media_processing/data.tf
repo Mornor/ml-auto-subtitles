@@ -17,4 +17,10 @@ locals {
     task_definition_name = var.ecs_task_name
     container_name       = var.ecs_container_name
   }
+  lambda_trigger_transcribe_job_tags = {
+    Name = var.lambda_trigger_transcribe_job_name
+  }
+  lambda_trigger_transcribe_job_env_variables = {
+    region = var.region
+  }
 }

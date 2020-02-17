@@ -169,3 +169,43 @@ variable "lambda_trigger_ecs_task_description" {
 variable "ecs_container_name" {
   type = string
 }
+
+variable "lambda_trigger_transcribe_job_s3_event_filter_prefix" {
+  type = string
+}
+
+variable "lambda_trigger_transcribe_job_s3_key" {
+  type = string
+}
+
+variable "lambda_trigger_transcribe_job_policy_path" {
+  type = string
+}
+
+variable "lambda_trigger_transcribe_job_description" {
+  type = string
+}
+
+variable "lambda_trigger_transcribe_job_policy_name" {
+  type = string
+}
+
+variable "lambda_trigger_transcribe_job_name" {
+  type = string
+}
+
+variable "lambda_trigger_transcribe_job_handler" {
+  type = string
+}
+
+variable "lambda_trigger_transcribe_job_input_path" {
+  type = string
+}
+
+variable "lambda_trigger_transcribe_job_output_path" {
+  type = string
+}
+
+variable "lambda_trigger_transcribe_job_triggered_by" {
+  type = string
+}

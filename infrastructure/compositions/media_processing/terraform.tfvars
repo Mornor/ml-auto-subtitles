@@ -8,7 +8,7 @@ memory_size         = 256
 timeout             = 5
 lambda_trust_policy = "../../policies/lambda_trust_policy.json"
 
-# Specific Lambdas attributes - Lambda triggered by a object created in S3 and put a message into SQS
+# Specific Lambdas attributes - Lambda triggered by a object created in S3 (under /inputs) and put a message into SQS
 lambda_input_to_sqs_input_path              = "../../../code/lambdas/input_to_sqs/main.py"
 lambda_input_to_sqs_output_path             = "../../../code/lambdas/input_to_sqs/input_to_sqs.zip"
 lambda_input_to_sqs_policy_path             = "../../policies/lambda_access_s3_sqs.json.tpl"
@@ -21,15 +21,27 @@ lambda_input_to_sqs_triggered_by            = "S3"
 lambda_input_to_sqs_description             = "Push S3 file path from /input to SQS"
 
 # Specific Lambdas attributes - Lambda triggered by a message received in SQS and trigger the ECS task
-lambda_trigger_ecs_task_input_path              = "../../../code/lambdas/trigger_ecs_task/main.py"
-lambda_trigger_ecs_task_output_path             = "../../../code/lambdas/trigger_ecs_task/trigger_ecs_task.zip"
-lambda_trigger_ecs_task_policy_path             = "../../policies/lambda_trigger_ecs_task.json.tpl"
-lambda_trigger_ecs_task_policy_name             = "policy_lambda_trigger_ecs_task"
-lambda_trigger_ecs_task_s3_key                  = "trigger_ecs_task/trigger_ecs_task.zip"
-lambda_trigger_ecs_task_name                    = "trigger_ecs_task"
-lambda_trigger_ecs_task_handler                 = "main.handler"
-lambda_trigger_ecs_task_triggered_by            = "SQS"
-lambda_trigger_ecs_task_description             = "Trigger ECS task when a message is received in the SQS Queue"
+lambda_trigger_ecs_task_input_path   = "../../../code/lambdas/trigger_ecs_task/main.py"
+lambda_trigger_ecs_task_output_path  = "../../../code/lambdas/trigger_ecs_task/trigger_ecs_task.zip"
+lambda_trigger_ecs_task_policy_path  = "../../policies/lambda_trigger_ecs_task.json.tpl"
+lambda_trigger_ecs_task_policy_name  = "policy_lambda_trigger_ecs_task"
+lambda_trigger_ecs_task_s3_key       = "trigger_ecs_task/trigger_ecs_task.zip"
+lambda_trigger_ecs_task_name         = "trigger_ecs_task"
+lambda_trigger_ecs_task_handler      = "main.handler"
+lambda_trigger_ecs_task_triggered_by = "SQS"
+lambda_trigger_ecs_task_description  = "Trigger ECS task when a message is received in the SQS Queue"
+
+# Specific Lambdas attributes - Lambda triggered by a object created in S3 (under /tmp) and trigger the Transcribe job
+lambda_trigger_transcribe_job_input_path             = "../../../code/lambdas/trigger_transcribe_job/main.py"
+lambda_trigger_transcribe_job_output_path            = "../../../code/lambdas/trigger_transcribe_job/trigger_transcribe_job.zip"
+lambda_trigger_transcribe_job_policy_path            = "../../policies/trigger_transcribe_job.json.tpl"
+lambda_trigger_transcribe_job_s3_event_filter_prefix = "inputs/"
+lambda_trigger_transcribe_job_policy_name            = "policy_lambda_trigger_transcribe_job"
+lambda_trigger_transcribe_job_s3_key                 = "trigger_transcribe_job/trigger_transcribe_job.zip"
+lambda_trigger_transcribe_job_name                   = "trigger_transcribe_job"
+lambda_trigger_transcribe_job_handler                = "main.handler"
+lambda_trigger_transcribe_job_triggered_by           = "S3"
+lambda_trigger_transcribe_job_description            = "Trigger Transcribe job when a object is created under /tmp of the app bucket"
 
 # SQS attribute
 sqs_name                      = "sqs_input"
