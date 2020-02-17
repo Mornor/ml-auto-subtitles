@@ -6,6 +6,10 @@ variable "bucket_name" {
   type = string
 }
 
+variable "account_id" {
+  type = string
+}
+
 variable "force_destroy" {
   type = bool
 }
@@ -30,6 +34,10 @@ variable "acl" {
   type = string
 }
 
+variable "policy_path" {
+  type = string
+}
+
 variable "block_public_policy" {
   type = bool
 }
@@ -44,10 +52,6 @@ variable "ignore_public_acls" {
 
 variable "restrict_public_buckets" {
   type = bool
-}
-
-variable "policy" {
-  type = string
 }
 
 variable "keys" {

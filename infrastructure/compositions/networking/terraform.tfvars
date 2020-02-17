@@ -8,14 +8,14 @@ vpc_tags = {
 }
 
 # Public Subnet
-public_subnet_cidr_block = "10.0.1.0/24"
+public_subnet_cidr_block = "10.0.0.0/20"
 public_subnet_assign_public_ip = true
 public_subnet_tags = {
   Name = "Public Subnet"
 }
 
 # Private Subnet
-private_subnet_cidr_block = "10.0.0.0/24"
+private_subnet_cidr_block = "10.0.16.0/20"
 private_subnet_assign_public_ip = false
 private_subnet_tags = {
   Name = "Private Subnet"

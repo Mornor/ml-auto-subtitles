@@ -20,9 +20,18 @@ resource "aws_s3_bucket" "this" {
   tags = var.tags
 }
 
+data "template_file" "this" {
+  template = file(var.policy_path)
+  vars = {
+    account_id  = var.account_id
+    bucket_name = var.bucket_name
+  }
+}
+
 resource "aws_s3_bucket_policy" "this" {
   bucket = aws_s3_bucket.this.id
-  policy = var.policy
+  policy = data.template_file.this.rendered
+  #policy = var.policy
 }
 
 # Fix the issue with aws_s3_bucket_public_access_block creation

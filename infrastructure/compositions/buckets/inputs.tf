@@ -2,7 +2,11 @@ variable "region" {
   type = string
 }
 
-variable "bucket_name" {
+variable "app_bucket_name" {
+  type = string
+}
+
+variable "lambdas_bucket_name" {
   type = string
 }
 
@@ -23,6 +27,10 @@ variable "sse_algorithm" {
 }
 
 variable "acl" {
+  type = string
+}
+
+variable "app_bucket_policy_path" {
   type = string
 }
 

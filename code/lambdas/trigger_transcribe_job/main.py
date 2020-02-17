@@ -17,7 +17,6 @@ def get_env_variable(variable_name):
   return result
 
 def handler(event, context):
-  transcribe = boto3.client('transcribe')
   # Retrieve bucket name and file_key from the S3 event
   bucket_name = event['Records'][0]['s3']['bucket']['name']
   file_key = event['Records'][0]['s3']['object']['key']
@@ -29,9 +28,11 @@ def handler(event, context):
   job_name = file_key
   job_uri = 'https://' +bucket_name+ '.s3.' +region+ '.amazonaws.com/' +file_key
 
+  transcribe = boto3.client('transcribe')
   transcribe.start_transcription_job(
       TranscriptionJobName=job_name,
       Media={'MediaFileUri': job_uri},
+      OutputBucketName=bucket_name,
       MediaFormat='mp3',
       LanguageCode='en-US'
   )
@@ -43,7 +44,7 @@ def handler(event, context):
       print('Translating audio...')
       time.sleep(5)
 
-  response_url = transcribe.get_transcription_job(TranscriptionJobName=job_name)
-  translated_file_url = response_url['TranscriptionJob']['Transcript']['TranscriptFileUri']
+  #response_url = transcribe.get_transcription_job(TranscriptionJobName=job_name)
+  #translated_file_url = response_url['TranscriptionJob']['Transcript']['TranscriptFileUri']
 
   return None
