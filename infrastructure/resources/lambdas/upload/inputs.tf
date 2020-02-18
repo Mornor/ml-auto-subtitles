@@ -10,6 +10,11 @@ variable "bucket_name" {
   type = string
 }
 
+variable "bucket_arn" {
+  type = string
+  default = ""
+}
+
 variable "lambda_s3_key" {
   type = string
 }
@@ -42,16 +47,6 @@ variable "role_arn" {
   type = string
 }
 
-variable "app_bucket_id" {
-  type    = string
-  default = ""
-}
-
-variable "app_bucket_arn" {
-  type    = string
-  default = ""
-}
-
 variable "publish" {
   type = bool
 }
@@ -60,20 +55,6 @@ variable "tags" {
   type = map
 }
 
-variable "s3_event_filter_prefix" {
-  type    = string
-  default = ""
-}
-
-variable "sqs_queue_arn" {
-  type    = string
-  default = ""
-}
-
 variable "environment_variables" {
   type = map
-}
-
-variable "triggered_by" {
-  type = string
 }

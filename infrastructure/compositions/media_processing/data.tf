@@ -24,4 +24,15 @@ locals {
     region        = var.region
     result_bucket = data.terraform_remote_state.buckets.outputs.transcribe_result_bucket_name
   }
+
+  # Lambdas attributes to setup notification
+  lambdas_attributes = [{
+      arn = module.lambda_input_to_sqs.arn
+      events = "s3:ObjectCreated:*"
+      filter_prefix = "inputs/"
+    },{
+      arn = module.lambda_transcribe_job.arn
+      events = "s3:ObjectCreated:*"
+      filter_prefix = "tmp/"
+  }]
 }

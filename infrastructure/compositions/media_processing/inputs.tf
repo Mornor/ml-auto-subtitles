@@ -54,10 +54,6 @@ variable "lambda_trust_policy" {
   type = string
 }
 
-variable "lambda_input_to_sqs_s3_event_filter_prefix" {
-  type = string
-}
-
 variable "sqs_name" {
   type = string
 }
@@ -126,10 +122,6 @@ variable "ecs_service_name" {
   type = string
 }
 
-variable "lambda_input_to_sqs_triggered_by" {
-  type = string
-}
-
 variable "lambda_trigger_ecs_task_input_path" {
   type = string
 }
@@ -158,19 +150,11 @@ variable "lambda_trigger_ecs_task_handler" {
   type = string
 }
 
-variable "lambda_trigger_ecs_task_triggered_by" {
-  type = string
-}
-
 variable "lambda_trigger_ecs_task_description" {
   type = string
 }
 
 variable "ecs_container_name" {
-  type = string
-}
-
-variable "lambda_trigger_transcribe_job_s3_event_filter_prefix" {
   type = string
 }
 
@@ -203,9 +187,5 @@ variable "lambda_trigger_transcribe_job_input_path" {
 }
 
 variable "lambda_trigger_transcribe_job_output_path" {
-  type = string
-}
-
-variable "lambda_trigger_transcribe_job_triggered_by" {
   type = string
 }
