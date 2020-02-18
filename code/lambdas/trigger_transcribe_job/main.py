@@ -25,8 +25,9 @@ def handler(event, context):
   region = get_env_variable('region')
   result_bucket = get_env_variable('result_bucket')
 
-  # The file key is already randomized, so we can re-use it
-  job_name = file_key
+  # The file key is already randomized, so we can re-use it. Transcribe does not accept '/' as a job name, so we have to only get the key.
+  # Example file_ly = tmp/key -> we need just key
+  job_name = file_key.split('/')[1]
   job_uri = 'https://' +bucket_name+ '.s3.' +region+ '.amazonaws.com/' +file_key
 
   transcribe = boto3.client('transcribe')
