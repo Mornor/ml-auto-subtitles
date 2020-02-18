@@ -99,3 +99,30 @@ module "lambda_trigger_ecs_task_policy_attachment" {
   role_name  = module.lambda_trigger_ecs_task_role.name
   policy_arn = module.lambda_trigger_ecs_task_policy.arn
 }
+
+# Lambda role to be able to trigger Transcribe job
+data "template_file" "trigger_transcribe_job_policy_template" {
+  template = file(var.lambda_trigger_transcribe_job_policy_path)
+  vars = {
+    app_bucket_arn        = data.terraform_remote_state.buckets.outputs.app_bucket_arn
+    transcribe_bucket_arn = data.terraform_remote_state.buckets.outputs.transcribe_result_bucket_arn
+  }
+}
+
+module "lambda_trigger_transcribe_job_role" {
+  source             = "../../resources/iam/role"
+  role_name          = var.lambda_trigger_transcribe_job_name
+  assume_role_policy = file(var.lambda_trust_policy)
+}
+
+module "lambda_trigger_transcribe_job_policy" {
+  source           = "../../resources/iam/policy"
+  policy_name      = var.lambda_trigger_transcribe_job_policy_name
+  policy_statement = data.template_file.trigger_transcribe_job_policy_template.rendered
+}
+
+module "lambda_trigger_transcribe_job_policy_attachment" {
+  source     = "../../resources/iam/policy_attachment"
+  role_name  = module.lambda_trigger_transcribe_job_role.name
+  policy_arn = module.lambda_trigger_transcribe_job_policy.arn
+}

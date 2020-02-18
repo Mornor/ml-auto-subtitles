@@ -43,24 +43,24 @@ module "lambda_trigger_ecs_task" {
 }
 
 # Lambda to trigger the Transcribe job once the sound is extracted
-module "lambda_transcribe_job" {
-  source                 = "../../resources/lambdas/upload"
-  lambda_path_input      = var.lambda_trigger_transcribe_job_input_path
-  lambda_path_output     = var.lambda_trigger_transcribe_job_output_path
-  bucket_name            = data.terraform_remote_state.buckets.outputs.lambdas_bucket_name
-  app_bucket_id          = data.terraform_remote_state.buckets.outputs.app_bucket_id
-  app_bucket_arn         = data.terraform_remote_state.buckets.outputs.app_bucket_arn
-  lambda_s3_key          = var.lambda_trigger_transcribe_job_s3_key
-  lambda_name            = var.lambda_trigger_transcribe_job_name
-  handler                = var.lambda_trigger_transcribe_job_handler
-  description            = var.lambda_trigger_transcribe_job_description
-  s3_event_filter_prefix = var.lambda_trigger_transcribe_job_s3_event_filter_prefix
-  runtime                = var.runtime
-  memory_size            = var.memory_size
-  timeout                = var.timeout
-  publish                = var.publish
-  role_arn               = module.lambda_trigger_transcribe_job_role.arn
-  environment_variables  = local.lambda_trigger_transcribe_job_env_variables
-  triggered_by           = var.lambda_trigger_transcribe_job_triggered_by
-  tags                   = local.lambda_trigger_transcribe_job_tags
-}
+// module "lambda_transcribe_job" {
+//   source                 = "../../resources/lambdas/upload"
+//   lambda_path_input      = var.lambda_trigger_transcribe_job_input_path
+//   lambda_path_output     = var.lambda_trigger_transcribe_job_output_path
+//   bucket_name            = data.terraform_remote_state.buckets.outputs.lambdas_bucket_name
+//   app_bucket_id          = data.terraform_remote_state.buckets.outputs.app_bucket_id
+//   app_bucket_arn         = data.terraform_remote_state.buckets.outputs.app_bucket_arn
+//   lambda_s3_key          = var.lambda_trigger_transcribe_job_s3_key
+//   lambda_name            = var.lambda_trigger_transcribe_job_name
+//   handler                = var.lambda_trigger_transcribe_job_handler
+//   description            = var.lambda_trigger_transcribe_job_description
+//   s3_event_filter_prefix = var.lambda_trigger_transcribe_job_s3_event_filter_prefix
+//   runtime                = var.runtime
+//   memory_size            = var.memory_size
+//   timeout                = var.timeout
+//   publish                = var.publish
+//   role_arn               = module.lambda_trigger_transcribe_job_role.arn
+//   environment_variables  = local.lambda_trigger_transcribe_job_env_variables
+//   triggered_by           = var.lambda_trigger_transcribe_job_triggered_by
+//   tags                   = local.lambda_trigger_transcribe_job_tags
+// }

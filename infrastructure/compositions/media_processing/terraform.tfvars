@@ -34,8 +34,8 @@ lambda_trigger_ecs_task_description  = "Trigger ECS task when a message is recei
 # Specific Lambdas attributes - Lambda triggered by a object created in S3 (under /tmp) and trigger the Transcribe job
 lambda_trigger_transcribe_job_input_path             = "../../../code/lambdas/trigger_transcribe_job/main.py"
 lambda_trigger_transcribe_job_output_path            = "../../../code/lambdas/trigger_transcribe_job/trigger_transcribe_job.zip"
-lambda_trigger_transcribe_job_policy_path            = "../../policies/trigger_transcribe_job.json.tpl"
-lambda_trigger_transcribe_job_s3_event_filter_prefix = "inputs/"
+lambda_trigger_transcribe_job_policy_path            = "../../policies/lambda_trigger_transcribe_job.json.tpl"
+lambda_trigger_transcribe_job_s3_event_filter_prefix = "tmp/"
 lambda_trigger_transcribe_job_policy_name            = "policy_lambda_trigger_transcribe_job"
 lambda_trigger_transcribe_job_s3_key                 = "trigger_transcribe_job/trigger_transcribe_job.zip"
 lambda_trigger_transcribe_job_name                   = "trigger_transcribe_job"

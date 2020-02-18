@@ -21,6 +21,7 @@ locals {
     Name = var.lambda_trigger_transcribe_job_name
   }
   lambda_trigger_transcribe_job_env_variables = {
-    region = var.region
+    region        = var.region
+    result_bucket = data.terraform_remote_state.buckets.outputs.transcribe_result_bucket_name
   }
 }

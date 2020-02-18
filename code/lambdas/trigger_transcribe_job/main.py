@@ -23,6 +23,7 @@ def handler(event, context):
 
   # Get the region from the env variable
   region = get_env_variable('region')
+  result_bucket = get_env_variable('result_bucket')
 
   # The file key is already randomized, so we can re-use it
   job_name = file_key
@@ -32,7 +33,7 @@ def handler(event, context):
   transcribe.start_transcription_job(
       TranscriptionJobName=job_name,
       Media={'MediaFileUri': job_uri},
-      OutputBucketName=bucket_name,
+      OutputBucketName=result_bucket,
       MediaFormat='mp3',
       LanguageCode='en-US'
   )
