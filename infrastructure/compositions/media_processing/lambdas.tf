@@ -57,10 +57,35 @@ module "lambda_transcribe_job" {
   tags                   = local.lambda_trigger_transcribe_job_tags
 }
 
-module "bucket_notifcations" {
+module "lambda_parse_transcribe_result" {
+  source                 = "../../resources/lambdas/upload"
+  lambda_path_input      = var.lambda_parse_transcribe_result_input_path
+  lambda_path_output     = var.lambda_parse_transcribe_result_output_path
+  bucket_name            = data.terraform_remote_state.buckets.outputs.lambdas_bucket_name
+  bucket_arn             = data.terraform_remote_state.buckets.outputs.transcribe_result_bucket_arn
+  lambda_s3_key          = var.lambda_parse_transcribe_result_s3_key
+  lambda_name            = var.lambda_parse_transcribe_result_name
+  handler                = var.lambda_parse_transcribe_result_handler
+  description            = var.lambda_parse_transcribe_result_description
+  runtime                = var.runtime
+  memory_size            = var.memory_size
+  timeout                = var.timeout
+  publish                = var.publish
+  role_arn               = module.lambda_parse_transcribe_result_role.arn
+  environment_variables  = {}
+  tags                   = local.lambda_parse_transcribe_result_tags
+}
+
+module "app_bucket_notifications" {
   source             = "../../resources/lambdas/bucket_notification"
   bucket_id          = data.terraform_remote_state.buckets.outputs.app_bucket_id
-  lambdas_attributes = local.lambdas_attributes
+  lambdas_attributes = local.app_bucket_lambdas_attributes
+}
+
+module "transcribe_bucket_notification" {
+  source             = "../../resources/lambdas/bucket_notification"
+  bucket_id          = data.terraform_remote_state.buckets.outputs.transcribe_result_bucket_id
+  lambdas_attributes = local.transcribe_result_bucket_lambdas_attributes
 }
 
 module "sqs_notification" {

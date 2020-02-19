@@ -23,3 +23,6 @@
 - ECS Cluster, and how I implemented it.
 - A Lambda is used to trigger the ECS task. The ECS task was supposed to get the message from the SQS, but thgat does not work because the message is "in-flight" (being processed by the lambda). Solution is to send env variable read by the lambda from the SQS to the ECS.
 - When a Lambda is triggered when a message is received in the SQS queue, we need to parse the event, and not try to use boto3 to fetch the message. Everything is in event['Records'][0].
+
+[Idea]
+- In another branch, use the ECS task to do everything instead of all the lambdas. Explain in the readme why I did not.

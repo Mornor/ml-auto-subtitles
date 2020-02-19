@@ -27,7 +27,8 @@ def handler(event, context):
 
   # The file key is already randomized, so we can re-use it. Transcribe does not accept '/' as a job name, so we have to only get the key.
   # Example file_ly = tmp/key -> we need just key
-  job_name = file_key.split('/')[1]
+  # job_name = file_key.split('/')[1]
+  job_name = os.path.basename(file_key)
   job_uri = 'https://' +bucket_name+ '.s3.' +region+ '.amazonaws.com/' +file_key
 
   transcribe = boto3.client('transcribe')
@@ -39,12 +40,12 @@ def handler(event, context):
       LanguageCode='en-US'
   )
 
-  while True:
-      status = transcribe.get_transcription_job(TranscriptionJobName=job_name)
-      if status['TranscriptionJob']['TranscriptionJobStatus'] in ['COMPLETED', 'FAILED']:
-          break
-      print('Translating audio...')
-      time.sleep(5)
+  # while True:
+  #     status = transcribe.get_transcription_job(TranscriptionJobName=job_name)
+  #     if status['TranscriptionJob']['TranscriptionJobStatus'] in ['COMPLETED', 'FAILED']:
+  #         break
+  #     print('Translating audio...')
+  #     time.sleep(5)
 
   #response_url = transcribe.get_transcription_job(TranscriptionJobName=job_name)
   #translated_file_url = response_url['TranscriptionJob']['Transcript']['TranscriptFileUri']

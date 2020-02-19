@@ -1,6 +1,6 @@
 import boto3
 import json
-
+import os
 
 def get_timestamp(seconds):
   seconds = float(seconds)
@@ -10,8 +10,9 @@ def get_timestamp(seconds):
   tmins = int(tseconds / 60)
   return str("%02d:%02d:%02d,%03d" % (00, tmins, int(tsecs), thund))
 
-def write_srt_file(phrases, sutitle_file_name):
-  with open(sutitle_file_name, 'w+') as out_file:
+def write_srt_file(phrases):
+  final_result_tmp_file = '/tmp/result.srt'
+  with open(final_result_tmp_file, 'w+') as out_file:
     for phrase in phrases:
       out_file.write(str(phrase['seq_order']))
       out_file.write('\n')
@@ -19,13 +20,26 @@ def write_srt_file(phrases, sutitle_file_name):
       out_file.write('\n')
       out_file.write(' '.join(phrase['words']))
       out_file.write('\n\n')
-  print('Translation done and saved under: ' + sutitle_file_name)
+  print('Translation done and saved under: '+final_result_tmp_file)
+  return final_result_tmp_file
 
 def new_phrase():
   return {'seq_order': '', 'start_time': '', 'end_time': '', 'words': []}
 
-def parse_transcribe_result():
-  with open('./tmp.json') as file:
+def download_transribe_result(bucket, key):
+  s3 = boto3.client('s3')
+  tmp_filename = '/tmp/{}'+os.path.basename(key)
+  s3.download_file(Bucket=bucket, Key=key, Filename=tmp_filename)
+  print('Downloaded file into '+tmp_filename)
+  return tmp_filename
+
+def upload_parsed_result(result_path, bucket):
+  s3 = boto3.resource('s3')
+  s3.meta.client.upload_file(result_path, bucket, 'results/'+result_path)
+  print('Final result uploaded to ['+bucket +'] under [results/'+result_path+'].')
+
+def parse_transcribe_result(tmp_filename):
+  with open(tmp_filename) as file:
     raw_result = json.load(file)
 
   items = raw_result['results']['items']
@@ -58,11 +72,22 @@ def parse_transcribe_result():
 
   return phrases
 
-def run():
-  phrases = parse_transcribe_result()
-  write_srt_file(phrases, 'out.srt')
+def handler(event, context):
+  # Retrieve bucket name and file_key from the S3 event
+  bucket_name = event['Records'][0]['s3']['bucket']['name']
+  file_key = event['Records'][0]['s3']['object']['key']
 
-run()
+  # Localy download the result of the Transcribe job
+  tmp_filename = download_transribe_result(bucket_name, file_key)
 
-# def handler(event, context):
-#   print('TODO')
+  # Parse the result
+  phrases = parse_transcribe_result(tmp_filename)
+
+  # Save it to a local file
+  tmp_result_file = write_srt_file(phrases)
+
+  # Upload it to S3
+  upload_parsed_result(tmp_result_file, bucket_name)
+
+
+  return None

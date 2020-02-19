@@ -1,4 +1,4 @@
-# Trigger the Lambda when an object is created under var.s3_event_filter_prefix
+# Trigger the Lambda when an object is created under lambda_function.value.filter_prefix
 resource "aws_s3_bucket_notification" "this" {
   bucket = var.bucket_id
 

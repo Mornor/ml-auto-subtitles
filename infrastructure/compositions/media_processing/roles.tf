@@ -126,3 +126,30 @@ module "lambda_trigger_transcribe_job_policy_attachment" {
   role_name  = module.lambda_trigger_transcribe_job_role.name
   policy_arn = module.lambda_trigger_transcribe_job_policy.arn
 }
+
+# Lambda role to be able to parse the result of the Transcribe job
+data "template_file" "lambda_parse_transcribe_result_policy_template" {
+  template = file(var.lambda_parse_transcribe_result_policy_path)
+  vars = {
+    app_bucket_arn    = data.terraform_remote_state.buckets.outputs.app_bucket_arn
+    result_bucket_arn = data.terraform_remote_state.buckets.outputs.transcribe_result_bucket_arn
+  }
+}
+
+module "lambda_parse_transcribe_result_role" {
+  source             = "../../resources/iam/role"
+  role_name          = var.lambda_parse_transcribe_result_name
+  assume_role_policy = file(var.lambda_trust_policy)
+}
+
+module "lambda_parse_transcribe_result_policy" {
+  source           = "../../resources/iam/policy"
+  policy_name      = var.lambda_parse_transcribe_result_policy_name
+  policy_statement = data.template_file.lambda_parse_transcribe_result_policy_template.rendered
+}
+
+module "lambda_parse_transcribe_result_policy_attachment" {
+  source     = "../../resources/iam/policy_attachment"
+  role_name  = module.lambda_parse_transcribe_result_role.name
+  policy_arn = module.lambda_parse_transcribe_result_policy.arn
+}

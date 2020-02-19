@@ -189,3 +189,35 @@ variable "lambda_trigger_transcribe_job_input_path" {
 variable "lambda_trigger_transcribe_job_output_path" {
   type = string
 }
+
+variable "lambda_parse_transcribe_result_s3_key" {
+  type = string
+}
+
+variable "lambda_parse_transcribe_result_policy_path" {
+  type = string
+}
+
+variable "lambda_parse_transcribe_result_description" {
+  type = string
+}
+
+variable "lambda_parse_transcribe_result_policy_name" {
+  type = string
+}
+
+variable "lambda_parse_transcribe_result_name" {
+  type = string
+}
+
+variable "lambda_parse_transcribe_result_handler" {
+  type = string
+}
+
+variable "lambda_parse_transcribe_result_input_path" {
+  type = string
+}
+
+variable "lambda_parse_transcribe_result_output_path" {
+  type = string
+}
