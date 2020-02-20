@@ -17,12 +17,14 @@
 - In the s3-ec1-lambdas-bucket, there is no need to create folders. Remove them.
 - Check timeout of Lambda. Right now, it's 5 secs, might be too low.
 - If timeout is more than 5sec, sometimes (to be confirmed), the Lambda triggers more than 1 task. Why?
+- The transcribe result (not parsed) is saved in the transcribe bucket under .mp3.json. Get rid of the .mp3.
 
 [Problem]
 - Not possible to extract sound w/ lambda because Numpy cannot be added to a Python package.
 - ECS Cluster, and how I implemented it.
 - A Lambda is used to trigger the ECS task. The ECS task was supposed to get the message from the SQS, but thgat does not work because the message is "in-flight" (being processed by the lambda). Solution is to send env variable read by the lambda from the SQS to the ECS.
 - When a Lambda is triggered when a message is received in the SQS queue, we need to parse the event, and not try to use boto3 to fetch the message. Everything is in event['Records'][0].
+- Transcribe creates a temp file on the bucket each time a Transcribe job is performed. That triggger the parse lambda w/ the wrong file. Solution was to add a suffix (.json) to the Bucket notification.
 
 [Idea]
 - In another branch, use the ECS task to do everything instead of all the lambdas. Explain in the readme why I did not.
