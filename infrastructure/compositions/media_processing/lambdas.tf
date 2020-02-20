@@ -82,7 +82,6 @@ module "app_bucket_notifications" {
   lambdas_attributes = local.app_bucket_lambdas_attributes
 }
 
-# Does not work - Use CW event instead.
 module "transcribe_bucket_notification" {
   source             = "../../resources/lambdas/bucket_notification"
   bucket_id          = data.terraform_remote_state.buckets.outputs.transcribe_result_bucket_id
