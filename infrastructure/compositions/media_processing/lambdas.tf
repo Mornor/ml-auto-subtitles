@@ -82,6 +82,7 @@ module "app_bucket_notifications" {
   lambdas_attributes = local.app_bucket_lambdas_attributes
 }
 
+# Does not work - Use CW event instead.
 module "transcribe_bucket_notification" {
   source             = "../../resources/lambdas/bucket_notification"
   bucket_id          = data.terraform_remote_state.buckets.outputs.transcribe_result_bucket_id
@@ -93,3 +94,18 @@ module "sqs_notification" {
   sqs_queue_arn = module.sqs_inputs.arn
   lambda_arn    = module.lambda_trigger_ecs_task.arn
 }
+
+# CW Custom event
+// {
+//   "source": [
+//     "aws.transcribe"
+//   ],
+//   "detail-type": [
+//     "Transcribe Job State Change"
+//   ],
+//   "detail": {
+//     "TranscriptionJobStatus": [
+//       "COMPLETED"
+//     ]
+//   }
+// }

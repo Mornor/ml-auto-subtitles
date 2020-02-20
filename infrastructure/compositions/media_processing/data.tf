@@ -28,7 +28,7 @@ locals {
     Name = var.lambda_parse_transcribe_result_name
   }
 
-  # Lambdas attributes to setup notification
+  # Lambdas attributes to setup notification on the app bucket
   app_bucket_lambdas_attributes = [{
       arn = module.lambda_input_to_sqs.arn
       events = "s3:ObjectCreated:*"

@@ -28,15 +28,15 @@ def new_phrase():
 
 def download_transribe_result(bucket, key):
   s3 = boto3.client('s3')
-  tmp_filename = '/tmp/{}'+os.path.basename(key)
+  tmp_filename = '/tmp/'+os.path.basename(key)
   s3.download_file(Bucket=bucket, Key=key, Filename=tmp_filename)
   print('Downloaded file into '+tmp_filename)
   return tmp_filename
 
 def upload_parsed_result(result_path, bucket):
   s3 = boto3.resource('s3')
-  s3.meta.client.upload_file(result_path, bucket, 'results/'+result_path)
-  print('Final result uploaded to ['+bucket +'] under [results/'+result_path+'].')
+  s3.meta.client.upload_file(result_path, bucket, 'results/'+os.path.basename(result_path))
+  print('Final result uploaded to ['+bucket +'] under [results/'+os.path.basename(result_path)+'].')
 
 def parse_transcribe_result(tmp_filename):
   with open(tmp_filename) as file:
