@@ -16,7 +16,7 @@ def get_env_variable(variable_name):
   return result
 
 def parse_sqs_message(event):
-  # Check that we have data to read from
+  # Check that we have data to read from the Lambda
   if 'Records' not in event:
     print('No Records found in queue.')
     exit(-1)

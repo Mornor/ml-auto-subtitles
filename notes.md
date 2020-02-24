@@ -1,8 +1,12 @@
+- Test new version of the parse lambda
+
 [TODO]
 - Handle failure on the ECS container and all the Lambdas (no SQS message etc ...)
+- Parametrize Lambda as much as possible
 - Find a way to re-trigger lambda deployment when code changed
 - The transcribe result (not parsed) is saved in the transcribe bucket under .mp3.json. Get rid of the .mp3.
 - Add some more logging and error handling.
+- Check what is the max size of file I can locally download with ECS (need EFS?).
 - The result.srt should be named witht a reference to the input video file received.
 - Check what's the difference between ecs_task_role and ecs_task_execution_role, and which one I need.
 - Put the Lambdas inside VPC and create interface endpoints, so that communications does not go through Internet.

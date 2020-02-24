@@ -10,6 +10,11 @@ import json
 import os
 
 def handler(event, context):
+  # Checl that we have data to read from the S3 event
+  if 'Records' not in event:
+    print('No Records found in queue.')
+    exit(-1)
+
   # Retrieve bucket name and file_key from the S3 event
   bucket_name = event['Records'][0]['s3']['bucket']['name']
   file_key = event['Records'][0]['s3']['object']['key']
