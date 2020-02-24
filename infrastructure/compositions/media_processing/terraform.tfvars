@@ -5,7 +5,7 @@ region = "eu-central-1"
 runtime             = "python3.7"
 publish             = false
 memory_size         = 256
-timeout             = 5
+timeout             = 300
 lambda_trust_policy = "../../policies/lambda_trust_policy.json"
 
 # Specific Lambdas attributes - Lambda triggered by a object created in S3 of the app_bucket (under /inputs) and put a message into SQS
