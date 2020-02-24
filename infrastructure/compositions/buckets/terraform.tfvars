@@ -13,7 +13,7 @@ block_public_policy     = true
 block_public_acls       = true
 ignore_public_acls      = true
 restrict_public_buckets = true
-keys                    = ["inputs/", "tmp/", "outputs/"]
+keys                    = ["inputs/", "tmp/"]
 
 # Lambdas Bucket
 lambdas_bucket_name = "s3-ec1-lambdas-bucket"

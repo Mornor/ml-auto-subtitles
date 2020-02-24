@@ -1,23 +1,16 @@
-- Use S3 to trigger a job to ECS or something AWS native.
- -> Will also solve the issue of waiting for the mp3 file to be uploaded to S3 before starting transcribe job.
- -> Create the terraform code to do so.
-- Delete old mp3 file from S3 once transcribe job is done.
-- Upload the Video to S3 and use AWS native stuff to extract sound from it.
-- Add some SQS for buffering/scaling.
-- Put AWS lamnbdas in VPC to avoid communication over internet (and add S3 endpoint in VPC).
-- Check if using locals instead of vars makes more sense.
-
 [TODO]
-- Add permissions to S3 Bucket so that Lambda can read/write to/from it.
-- Check what's the difference between ecs_task_role and ecs_task_execution_role, and which one I need.
-- Handle failure on the ECS container (no SQS message etc ...)
-- Delete SQS message once sound is extracted.
-- May be create a SG to run the ECS task (right now, it uses the default SG of the VPC).
-- Put the Lambdas inside VPC and create interface endpoints, so that communications does not go through Internet.
 - In the s3-ec1-lambdas-bucket, there is no need to create folders. Remove them.
+- Check what's the difference between ecs_task_role and ecs_task_execution_role, and which one I need.
+- Handle failure on the ECS container and all the Lambdas (no SQS message etc ...)
+- Put the Lambdas inside VPC and create interface endpoints, so that communications does not go through Internet.
+- Delete SQS message once sound is extracted.
+- Delete old mp3 file from S3 once transcribe job is done.
+- May be create a SG to run the ECS task (right now, it uses the default SG of the VPC).
 - Check timeout of Lambda. Right now, it's 5 secs, might be too low.
 - If timeout is more than 5sec, sometimes (to be confirmed), the Lambda triggers more than 1 task. Why?
 - The transcribe result (not parsed) is saved in the transcribe bucket under .mp3.json. Get rid of the .mp3.
+
+[DONE]
 
 [Problem]
 - Not possible to extract sound w/ lambda because Numpy cannot be added to a Python package.
