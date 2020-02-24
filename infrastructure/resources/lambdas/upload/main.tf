@@ -12,17 +12,17 @@ resource "aws_s3_bucket_object" "this" {
 }
 
 resource "aws_lambda_function" "this" {
-  function_name = var.lambda_name
-  description   = var.description
-  s3_bucket     = var.bucket_name
-  s3_key        = aws_s3_bucket_object.this.key
-  handler       = var.handler
-  runtime       = var.runtime
-  memory_size   = var.memory_size
-  timeout       = var.timeout
-  role          = var.role_arn
-  publish       = var.publish
-  tags          = var.tags
+  function_name     = var.lambda_name
+  description       = var.description
+  s3_bucket         = var.bucket_name
+  s3_key            = aws_s3_bucket_object.this.key
+  handler           = var.handler
+  runtime           = var.runtime
+  memory_size       = var.memory_size
+  timeout           = var.timeout
+  role              = var.role_arn
+  publish           = var.publish
+  tags              = var.tags
 
   dynamic "environment" {
     for_each = length(var.environment_variables) > 0 ? [var.environment_variables] : []
@@ -37,7 +37,7 @@ resource "aws_lambda_function" "this" {
   // }
 }
 
-// # Allow Lambda to be invoked from S3
+// # Allow Lambda to be invoked from S3, only if needs to be
 resource "aws_lambda_permission" "this" {
   count         = var.bucket_arn != "" ? 1 : 0
   statement_id  = "AllowExecutionFromS3Bucket"

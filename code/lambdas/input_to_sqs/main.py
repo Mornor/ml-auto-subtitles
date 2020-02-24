@@ -14,8 +14,11 @@ def handler(event, context):
   bucket_name = event['Records'][0]['s3']['bucket']['name']
   file_key = event['Records'][0]['s3']['object']['key']
 
-  print('Bucket = ' +bucket_name)
-  print('File key = ' +file_key)
+  # Retrieve SQS Queue URL
+  sqs_queue = os.environ['queue_url']
+
+  print('Bucket = ['+bucket_name+']')
+  print('File key = ['+file_key+']')
 
   # Define message to be sent to the SQS
   message = {
@@ -25,10 +28,16 @@ def handler(event, context):
 
   # Insert message into SQS
   sqs_client = boto3.client('sqs')
-  sqs_client.send_message(
-      QueueUrl=os.environ['queue_url'],
+  response = sqs_client.send_message(
+      QueueUrl=sqs_queue,
       MessageBody=json.dumps(message)
   )
-  print('SQS message inserted in SQS')
+
+  # Check if message has been correctly sent
+  if 'MessageId' not in response:
+    print('Error, cannot fetch the MessageId of the message which has been sent.')
+    exit(-1)
+  else:
+    print('SQS message successfully inserted in SQS queue ['+sqs_queue+']')
 
   return None

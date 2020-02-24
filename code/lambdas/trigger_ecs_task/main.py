@@ -11,30 +11,33 @@ def get_env_variable(variable_name):
   try:
       result = os.environ[variable_name]
   except KeyError:
-      raise Exception(variable_name + ' is not set, please check your environment variables')
+      print(variable_name + ' is not set, please check your environment variables')
+      exit(-1)
   return result
 
 def parse_sqs_message(event):
-    if 'Records' not in event:
-        print('No Records found in queue.')
-        return None
+  # Check that we have data to read from
+  if 'Records' not in event:
+    print('No Records found in queue.')
+    exit(-1)
 
-    message = event['Records'][0]
-    body = json.loads(message['body'])
-    bucket = body.get('Bucket', None)
-    key = body.get('object_path', None)
+  # Extract data from the SQS message
+  message = event['Records'][0]
+  body = json.loads(message['body'])
+  bucket = body.get('Bucket', None)
+  key = body.get('object_path', None)
 
-    print('Read from SQS: Bucket = ['+bucket+'], key = ['+key+'].')
+  print('Read from SQS: Bucket = ['+bucket+'], key = ['+key+'].')
 
-    # If any of the variables have not been sent exit
-    if bucket is None or key is None:
-        print('Bucket or key missing from message')
-        exit(-1)
+  # If any of the variables have not been sent exit
+  if bucket is None or key is None:
+      print('Bucket or key missing from message')
+      exit(-1)
 
-    return {
-        "bucket": bucket,
-        "bucket_key": key
-    }
+  return {
+      "bucket": bucket,
+      "bucket_key": key
+  }
 
 def handler(event, context):
   cluster_name = get_env_variable('cluster_name')

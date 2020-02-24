@@ -1,8 +1,10 @@
 [TODO]
+- Handle failure on the ECS container and all the Lambdas (no SQS message etc ...)
+- Find a way to re-trigger lambda deployment when code changed
 - The transcribe result (not parsed) is saved in the transcribe bucket under .mp3.json. Get rid of the .mp3.
 - Add some more logging and error handling.
+- The result.srt should be named witht a reference to the input video file received.
 - Check what's the difference between ecs_task_role and ecs_task_execution_role, and which one I need.
-- Handle failure on the ECS container and all the Lambdas (no SQS message etc ...)
 - Put the Lambdas inside VPC and create interface endpoints, so that communications does not go through Internet.
 - Delete old mp3 file from S3 once transcribe job is done.
 - May be create a SG to run the ECS task (right now, it uses the default SG of the VPC).

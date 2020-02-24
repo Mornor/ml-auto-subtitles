@@ -1,3 +1,11 @@
+"""
+_4th_ Lambda to be called
+Triggered when the Transcribe job is finished.
+- Fetch the result from the Transcribe job
+- Parse it to a .srt format
+- Upload it to the app bucket under /outputs
+"""
+
 import boto3
 import json
 import os
