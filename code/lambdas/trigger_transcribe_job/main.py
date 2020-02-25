@@ -27,6 +27,8 @@ def handler(event, context):
   # Get the region from the env variable
   region = get_env_variable('region')
   result_bucket = get_env_variable('result_bucket')
+  language_code = get_env_variable('language_code')
+  media_format = get_env_variable('media_format')
 
   # The file key is already randomized, so we can re-use it. Transcribe does not accept '/' as a job name, so we have to only get the key.
   job_name = os.path.basename(file_key)
@@ -37,8 +39,8 @@ def handler(event, context):
       TranscriptionJobName=job_name,
       Media={'MediaFileUri': job_uri},
       OutputBucketName=result_bucket,
-      MediaFormat='mp3',
-      LanguageCode='en-US'
+      LanguageCode=language_code,
+      MediaFormat=media_format
   )
 
   return None
