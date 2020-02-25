@@ -1,14 +1,10 @@
-- Test new version of the parse lambda
-
 [TODO]
-- Handle failure on the ECS container and all the Lambdas (no SQS message etc ...)
 - Parametrize Lambda as much as possible
+- Delete old mp3 file from S3 once transcribe job is done.
+- Put the Lambdas inside VPC and create interface endpoints, so that communications does not go through Internet.
 - Find a way to re-trigger lambda deployment when code changed
-- Add some more logging and error handling.
 - The result.srt should be named with a reference to the input video file received (use DynamoDb to retain the input video file name).
 - Check what's the difference between ecs_task_role and ecs_task_execution_role, and which one I need.
-- Put the Lambdas inside VPC and create interface endpoints, so that communications does not go through Internet.
-- Delete old mp3 file from S3 once transcribe job is done.
 - May be create a SG to run the ECS task (right now, it uses the default SG of the VPC).
 
 [DONE]
@@ -17,6 +13,7 @@
 - Delete SQS message once sound is extracted (done by the Lambda once the message has been processed)
 - Check timeout of Lambda. Right now, it's 5 secs, might be too low. Increased to 5mins.
 - Check what is the max size of file I can locally download with ECS (need EFS?) -> 10GB for Docker layer, and additional 4GB for volume mounts.
+- Handle failure on the ECS container and all the Lambdas (no SQS message etc ...)
 
 [Problem]
 - Not possible to extract sound w/ lambda because Numpy cannot be added to a Python package.
