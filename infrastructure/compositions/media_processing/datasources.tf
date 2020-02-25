@@ -5,9 +5,9 @@ data "aws_caller_identity" "current" {}
 data "terraform_remote_state" "networking" {
   backend = "s3"
   config = {
-    bucket  = "s3-ec1-subtitles-bucket-state-files"
-    key     = "app/networking/terraform.tfstate"
-    region  = "eu-central-1"
+    bucket = "s3-ec1-subtitles-bucket-state-files"
+    key    = "app/networking/terraform.tfstate"
+    region = "eu-central-1"
   }
 }
 

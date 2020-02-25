@@ -32,20 +32,20 @@ locals {
 
   # Lambdas attributes to setup notification on the app bucket
   app_bucket_lambdas_attributes = [{
-      arn = module.lambda_input_to_sqs.arn
-      events = "s3:ObjectCreated:*"
-      filter_prefix = "inputs/"
-      filter_suffix = ""
-    },{
-      arn = module.lambda_transcribe_job.arn
-      events = "s3:ObjectCreated:*"
-      filter_prefix = "tmp/"
-      filter_suffix = ""
+    arn           = module.lambda_input_to_sqs.arn
+    events        = "s3:ObjectCreated:*"
+    filter_prefix = "inputs/"
+    filter_suffix = ""
+    }, {
+    arn           = module.lambda_transcribe_job.arn
+    events        = "s3:ObjectCreated:*"
+    filter_prefix = "tmp/"
+    filter_suffix = ""
   }]
 
   transcribe_result_bucket_lambdas_attributes = [{
-    arn = module.lambda_parse_transcribe_result.arn
-    events = "s3:ObjectCreated:*"
+    arn           = module.lambda_parse_transcribe_result.arn
+    events        = "s3:ObjectCreated:*"
     filter_prefix = ""
     filter_suffix = ".json"
   }]

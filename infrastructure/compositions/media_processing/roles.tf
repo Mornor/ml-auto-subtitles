@@ -46,7 +46,7 @@ data "template_file" "ecs_task_execution_policy_template" {
   template = file(var.ecs_task_execution_policy_path)
   vars = {
     app_bucket_arn = data.terraform_remote_state.buckets.outputs.app_bucket_arn
-    sqs_arn = module.sqs_inputs.arn
+    sqs_arn        = module.sqs_inputs.arn
   }
 }
 
