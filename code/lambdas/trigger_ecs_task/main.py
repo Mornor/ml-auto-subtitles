@@ -40,6 +40,7 @@ def parse_sqs_message(event):
   }
 
 def handler(event, context):
+  # Extract environment variables
   cluster_name = get_env_variable('cluster_name')
   private_subnet_id = get_env_variable('subnet_id')
   task_defintion_name = get_env_variable('task_definition_name')
