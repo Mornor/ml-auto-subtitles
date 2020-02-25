@@ -4,21 +4,19 @@
 - Handle failure on the ECS container and all the Lambdas (no SQS message etc ...)
 - Parametrize Lambda as much as possible
 - Find a way to re-trigger lambda deployment when code changed
-- The transcribe result (not parsed) is saved in the transcribe bucket under .mp3.json. Get rid of the .mp3.
 - Add some more logging and error handling.
-- Check what is the max size of file I can locally download with ECS (need EFS?).
-- The result.srt should be named witht a reference to the input video file received.
+- The result.srt should be named with a reference to the input video file received (use DynamoDb to retain the input video file name).
 - Check what's the difference between ecs_task_role and ecs_task_execution_role, and which one I need.
 - Put the Lambdas inside VPC and create interface endpoints, so that communications does not go through Internet.
 - Delete old mp3 file from S3 once transcribe job is done.
 - May be create a SG to run the ECS task (right now, it uses the default SG of the VPC).
-- If timeout is more than 5sec, sometimes (to be confirmed), the Lambda triggers more than 1 task. Why?
 
 [DONE]
 - In the s3-ec1-lambdas-bucket, there is no need to create folders. Remove them.
 - In the s3-ec1-app-bucket, no need for an outputs/ key.
 - Delete SQS message once sound is extracted (done by the Lambda once the message has been processed)
 - Check timeout of Lambda. Right now, it's 5 secs, might be too low. Increased to 5mins.
+- Check what is the max size of file I can locally download with ECS (need EFS?) -> 10GB for Docker layer, and additional 4GB for volume mounts.
 
 [Problem]
 - Not possible to extract sound w/ lambda because Numpy cannot be added to a Python package.

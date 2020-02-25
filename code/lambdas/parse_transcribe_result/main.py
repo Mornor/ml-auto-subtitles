@@ -20,7 +20,9 @@ def get_timestamp(seconds):
   return str("%02d:%02d:%02d,%03d" % (00, tmins, int(tsecs), thund))
 
 def write_srt_file(phrases, key):
-  final_result_tmp_file = '/tmp/result/subtitles_'+key+'.srt'
+  # xxxx.mp3.json to xxxx
+  key = key.split('.')[0]
+  final_result_tmp_file = '/tmp/subtitles_'+key+'.srt'
   with open(final_result_tmp_file, 'w+') as out_file:
     for phrase in phrases:
       out_file.write(str(phrase['seq_order']))
@@ -56,7 +58,7 @@ def download_transribe_result(bucket, key):
 def upload_parsed_result(result_path, bucket):
   s3 = boto3.resource('s3')
   s3.meta.client.upload_file(result_path, bucket, 'results/'+os.path.basename(result_path))
-  print('Final result uploaded to ['+bucket +'] under [results/'+os.path.basename(result_path)+'].')
+  print('Final result uploaded to ['+bucket+'] under [results/'+os.path.basename(result_path)+'].')
 
 def parse_transcribe_result(tmp_filename):
   with open(tmp_filename) as file:
@@ -93,7 +95,7 @@ def parse_transcribe_result(tmp_filename):
   return phrases
 
 def handler(event, context):
-  # Check that wer have data to read from the event
+  # Check that we have data to read from the event
   if 'Records' not in event:
     print('No Records found in S3 event.')
     exit(-1)
