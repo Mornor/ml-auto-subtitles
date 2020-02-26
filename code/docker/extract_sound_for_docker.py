@@ -47,8 +47,18 @@ def extract_sound_from_video(video_path, randomized_file_name):
 def upload_sound_to_s3(bucket, tmp_extracted_sound_path, randomized_file_name):
   print('Uploading extracted sound ['+tmp_extracted_sound_path+'] to S3')
   s3 = boto3.resource('s3')
-  s3.meta.client.upload_file(tmp_extracted_sound_path, bucket, 'tmp/'+randomized_file_name+'.mp3')
+  try:
+    s3.meta.client.upload_file(tmp_extracted_sound_path, bucket, 'tmp/'+randomized_file_name+'.mp3')
+  except boto3.exceptions.S3UploadFailedError as e:
+    print('Upload of the extracted sound failed: '+e)
+    exit(-1)
   print('Sound uploaded to Bucket ['+bucket+'] under [tmp/'+randomized_file_name+'.mp3]')
+
+def remove_input_file(bucket, key):
+  print('Deleting input file ['+key+'] from S3 ['+bucket+']')
+  s3 = boto3.client('s3')
+  s3.delete_object(Bucket=bucket, Key=key)
+  print('Input file ['+key+'] successfully deleted from S3 ['+bucket+']')
 
 def run():
   # Get the message's data from the Lambda function
@@ -58,7 +68,7 @@ def run():
   print('Bucket = ['+bucket+']')
   print('object_path = ['+object_path+']')
 
-  # Randomize a job name for both Transcript and the filename of the extracted sound from the video
+  # Randomize a job name for both the Transcript job and the filename of the extracted sound from the video
   randomized_file_name = randomize_job_name()
 
   # Locally download the file from S3 and return its local path ('./[randomized_file_name]/.mp4')
@@ -69,5 +79,8 @@ def run():
 
   # Upload the extracted sound to the app-bucket under /tmp/randomized_file_name]/.mp3
   upload_sound_to_s3(bucket, tmp_extracted_sound_path, randomized_file_name)
+
+  # Remove input video file once the sound is extracted
+  remove_input_file(bucket, object_path)
 
 run()
