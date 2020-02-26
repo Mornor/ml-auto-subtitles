@@ -28,7 +28,10 @@ def handler(event, context):
   region = get_env_variable('region')
   result_bucket = get_env_variable('result_bucket')
   language_code = get_env_variable('language_code')
-  media_format = get_env_variable('media_format')
+
+  # Retrieve the format by getting the ext of the file (/tmp/xxx.mp3 -> .mp3 -> mp3)
+  _, ext = os.path.splitext(file_key)
+  media_format = ext.split('.')[1]
 
   # The file key is already randomized, so we can re-use it. Transcribe does not accept '/' as a job name, so we have to only get the key.
   job_name = os.path.basename(file_key)
@@ -42,5 +45,7 @@ def handler(event, context):
       LanguageCode=language_code,
       MediaFormat=media_format
   )
+
+  print('Transcribe job successfully triggered!')
 
   return None

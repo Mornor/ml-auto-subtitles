@@ -1,4 +1,5 @@
 [TODO]
+- How to retrieve the srt file corresponding to the input video if several input at the same time ?
 - Parametrize Lambda as much as possible
 - Delete old mp3 file from S3 once transcribe job is done.
 - Put the Lambdas inside VPC and create interface endpoints, so that communications does not go through Internet.

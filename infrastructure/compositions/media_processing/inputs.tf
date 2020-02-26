@@ -194,10 +194,6 @@ variable "lambda_trigger_transcribe_job_env_language" {
   type = string
 }
 
-variable "lambda_trigger_transcribe_job_env_media_format" {
-  type = string
-}
-
 variable "lambda_parse_transcribe_result_s3_key" {
   type = string
 }

@@ -38,8 +38,6 @@ lambda_trigger_transcribe_job_name             = "trigger_transcribe_job"
 lambda_trigger_transcribe_job_handler          = "main.handler"
 lambda_trigger_transcribe_job_description      = "Trigger Transcribe job when a object is created under /tmp of the app bucket"
 lambda_trigger_transcribe_job_env_language     = "en-US"
-lambda_trigger_transcribe_job_env_media_format = "mp3"
-
 
 # Specific Lambdas attributes - Lambda triggered by a object created in S3 of the transcribe_results_bucket and parse the Transcribe result into a .srt file.
 lambda_parse_transcribe_result_input_path  = "../../../code/lambdas/parse_transcribe_result/main.py"
