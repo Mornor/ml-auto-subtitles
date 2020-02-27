@@ -25,6 +25,9 @@ locals {
     result_bucket = data.terraform_remote_state.buckets.outputs.transcribe_result_bucket_name
     language_code = var.lambda_trigger_transcribe_job_env_language
   }
+  lambda_parse_transcribe_result_env_variables = {
+    app_bucket_name = data.terraform_remote_state.buckets.outputs.app_bucket_name
+  }
   lambda_parse_transcribe_result_tags = {
     Name = var.lambda_parse_transcribe_result_name
   }

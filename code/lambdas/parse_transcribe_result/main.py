@@ -11,6 +11,15 @@ import boto3
 import json
 import os
 
+
+def get_env_variable(variable_name):
+  try:
+    result = os.environ[variable_name]
+  except KeyError:
+    print(variable_name + ' is not set, please check your environment variables')
+    exit(-1)
+  return result
+
 def get_timestamp(seconds):
   seconds = float(seconds)
   thund = int(seconds % 1 * 1000)
@@ -57,7 +66,11 @@ def download_transribe_result(bucket, key):
 
 def upload_parsed_result(result_path, bucket):
   s3 = boto3.resource('s3')
-  s3.meta.client.upload_file(result_path, bucket, 'results/'+os.path.basename(result_path))
+  try:
+    s3.meta.client.upload_file(result_path, bucket, 'results/'+os.path.basename(result_path))
+  except boto3.exceptions.S3UploadFailedError as e:
+    print('Upload od the Transcribe result failed: '+e)
+    exit(-1)
   print('Final result uploaded to ['+bucket+'] under [results/'+os.path.basename(result_path)+'].')
 
 def parse_transcribe_result(tmp_filename):
@@ -94,6 +107,12 @@ def parse_transcribe_result(tmp_filename):
 
   return phrases
 
+def remove_input_file(bucket, key):
+  print('Deleting input file ['+key+'] from S3 ['+bucket+']')
+  s3 = boto3.client('s3')
+  s3.delete_object(Bucket=bucket, Key=key)
+  print('Input file ['+key+'] successfully deleted from S3 ['+bucket+']')
+
 def handler(event, context):
   # Check that we have data to read from the event
   if 'Records' not in event:
@@ -101,13 +120,16 @@ def handler(event, context):
     exit(-1)
 
   # Retrieve bucket name and file_key from the S3 event
-  bucket_name = event['Records'][0]['s3']['bucket']['name']
+  transcribe_bucket_name = event['Records'][0]['s3']['bucket']['name']
   file_key = event['Records'][0]['s3']['object']['key']
-  print('Bucket = ['+bucket_name+']')
+  print('Bucket = ['+transcribe_bucket_name+']')
   print('File key = ['+file_key+']')
 
+  # Get env variable value
+  app_bucket_name = get_env_variable('app_bucket_name')
+
   # Localy download the result of the Transcribe job
-  tmp_filename = download_transribe_result(bucket_name, file_key)
+  tmp_filename = download_transribe_result(transcribe_bucket_name, file_key)
 
   # Parse the result
   phrases = parse_transcribe_result(tmp_filename)
@@ -116,6 +138,10 @@ def handler(event, context):
   tmp_result_file = write_srt_file(phrases, file_key)
 
   # Upload it to S3
-  upload_parsed_result(tmp_result_file, bucket_name)
+  upload_parsed_result(tmp_result_file, transcribe_bucket_name)
+
+  # Once the Transcribe result is parsed and uploaded to S3, we can remove the tmp file in app-bucket, as well as the transcribe result in the transcribe result bucket
+  remove_input_file(app_bucket_name, 'tmp/'+file_key.replace('.json', '')) # xxxx.mp3.json -> xxxxx.mp3
+  remove_input_file(transcribe_bucket_name, file_key)
 
   return None

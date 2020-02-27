@@ -72,7 +72,7 @@ module "lambda_parse_transcribe_result" {
   timeout               = var.timeout
   publish               = var.publish
   role_arn              = module.lambda_parse_transcribe_result_role.arn
-  environment_variables = {}
+  environment_variables = local.lambda_parse_transcribe_result_env_variables
   tags                  = local.lambda_parse_transcribe_result_tags
 }
 

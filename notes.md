@@ -15,11 +15,12 @@
 - Check timeout of Lambda. Right now, it's 5 secs, might be too low. Increased to 5mins.
 - Check what is the max size of file I can locally download with ECS (need EFS?) -> 10GB for Docker layer, and additional 4GB for volume mounts.
 - Handle failure on the ECS container and all the Lambdas (no SQS message etc ...)
+- In the trigger_transcribe_job lambda, we can automatically get the MediaFormat from the key (.split('.')[0]) -> .mp3, instead of giving it a variable.s
 
 [Problem]
 - Not possible to extract sound w/ lambda because Numpy cannot be added to a Python package.
 - ECS Cluster, and how I implemented it.
-- A Lambda is used to trigger the ECS task. The ECS task was supposed to get the message from the SQS, but thgat does not work because the message is "in-flight" (being processed by the lambda). Solution is to send env variable read by the lambda from the SQS to the ECS.
+- A Lambda is used to trigger the ECS task. The ECS task was supposed to get the message from the SQS, but that does not work because the message is "in-flight" (being processed by the lambda). Solution is to send env variable read by the lambda from the SQS to the ECS.
 - When a Lambda is triggered when a message is received in the SQS queue, we need to parse the event, and not try to use boto3 to fetch the message. Everything is in event['Records'][0].
 - Transcribe creates a temp file on the bucket each time a Transcribe job is performed. That triggger the parse lambda w/ the wrong file. Solution was to add a suffix (.json) to the Bucket notification.
 
