@@ -1,7 +1,6 @@
 [TODO]
 - How to retrieve the srt file corresponding to the input video if several input at the same time ?
 - Parametrize Lambda as much as possible
-- Delete old mp3 file from S3 once transcribe job is done.
 - Put the Lambdas inside VPC and create interface endpoints, so that communications does not go through Internet.
 - Find a way to re-trigger lambda deployment when code changed
 - The result.srt should be named with a reference to the input video file received (use DynamoDb to retain the input video file name).
@@ -15,7 +14,8 @@
 - Check timeout of Lambda. Right now, it's 5 secs, might be too low. Increased to 5mins.
 - Check what is the max size of file I can locally download with ECS (need EFS?) -> 10GB for Docker layer, and additional 4GB for volume mounts.
 - Handle failure on the ECS container and all the Lambdas (no SQS message etc ...)
-- In the trigger_transcribe_job lambda, we can automatically get the MediaFormat from the key (.split('.')[0]) -> .mp3, instead of giving it a variable.s
+- In the trigger_transcribe_job lambda, we can automatically get the MediaFormat from the key (.split('.')[0]) -> .mp3, instead of giving it a variable.
+- Delete old mp3 file from S3 once transcribe job is done.
 
 [Problem]
 - Not possible to extract sound w/ lambda because Numpy cannot be added to a Python package.
