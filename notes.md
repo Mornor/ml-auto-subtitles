@@ -1,4 +1,5 @@
 [TODO]
+- Sharding could be very effective. Lambda only uses chnunk of 5mb video.
 - How to retrieve the srt file corresponding to the input video if several input at the same time ?
 - Parametrize Lambda as much as possible
 - Put the Lambdas inside VPC and create interface endpoints, so that communications does not go through Internet.
