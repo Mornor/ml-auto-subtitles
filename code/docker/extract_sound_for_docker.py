@@ -22,8 +22,12 @@ def get_env_variable(variable_name):
 def get_file_from_s3(bucket, s3_key, tmp_local_file_name):
   print('Downloading from S3: ['+bucket+'/'+s3_key+']')
   s3 = boto3.resource('s3')
+  raw_input_name = os.path.splitext(os.path.basename(s3_key))[0] # inputs/xxxxx.yyy -> xxxx
+  _, file_extension = os.path.splitext(s3_key)  # inputs/xxxxx.yyy -> .yyy
+  tmp_path = './'+raw_input_name+'_'+tmp_local_file_name+file_extension
   try:
-    s3.meta.client.download_file(bucket, s3_key, './'+tmp_local_file_name+'.mp4')
+    # Download into './[input_name]_[random_string].[file_extension]'
+    s3.meta.client.download_file(bucket, s3_key, tmp_path)
   except botocore.exceptions.ClientError as e:
     if e.response['Error']['Code'] == '404':
       print('The object ['+s3_key+'] does not exist in the Bucket ['+bucket+']')
@@ -32,27 +36,28 @@ def get_file_from_s3(bucket, s3_key, tmp_local_file_name):
       print('Error when downloading S3 object: '+e)
       exit(-1)
 
-  tmp_path = './'+tmp_local_file_name+'.mp4'
   print('File locally downloaded under ['+tmp_path+']')
   return tmp_path
 
-def extract_sound_from_video(video_path, randomized_file_name):
+def extract_sound_from_video(video_path): #[s3_key]_[randomized_file_name]
   print('Extracting sound from video ['+video_path+']')
+  # ./[input_name]_[random_string].[file_extension] -> ./[input_name]_[random_string].mp3
+  tmp_extracted_sound_path = './'+os.path.basename(video_path).split('.')[0]+'.mp3'
   audio = AudioFileClip(video_path)
-  tmp_extracted_sound_path = './'+randomized_file_name+'.mp3'
   audio.write_audiofile(tmp_extracted_sound_path)
   print('Sound extracted and saved under ['+tmp_extracted_sound_path+']')
   return tmp_extracted_sound_path
 
-def upload_sound_to_s3(bucket, tmp_extracted_sound_path, randomized_file_name):
+def upload_sound_to_s3(bucket, tmp_extracted_sound_path):
   print('Uploading extracted sound ['+tmp_extracted_sound_path+'] to S3')
+  raw_file_name = os.path.basename(tmp_extracted_sound_path)
   s3 = boto3.resource('s3')
   try:
-    s3.meta.client.upload_file(tmp_extracted_sound_path, bucket, 'tmp/'+randomized_file_name+'.mp3')
+    s3.meta.client.upload_file(tmp_extracted_sound_path, bucket, 'tmp/'+raw_file_name)
   except boto3.exceptions.S3UploadFailedError as e:
     print('Upload of the extracted sound failed: '+e)
     exit(-1)
-  print('Sound uploaded to Bucket ['+bucket+'] under [tmp/'+randomized_file_name+'.mp3]')
+  print('Sound uploaded to Bucket ['+bucket+'] under [tmp/'+raw_file_name+']')
 
 def remove_input_file(bucket, key):
   print('Deleting input file ['+key+'] from S3 ['+bucket+']')
@@ -71,14 +76,14 @@ def run():
   # Randomize a job name for both the Transcript job and the filename of the extracted sound from the video
   randomized_file_name = randomize_job_name()
 
-  # Locally download the file from S3 and return its local path ('./[randomized_file_name]/.mp4')
+  # Locally download the file from S3 and return its local path ('./[s3_key]_[randomized_file_name].[file_extension]')
   tmp_video_path = get_file_from_s3(bucket, object_path, randomized_file_name)
 
-  # Extract the sound from the downloaded video and return its local path ('./[randomized_file_name]/.mp3')
-  tmp_extracted_sound_path = extract_sound_from_video(tmp_video_path, randomized_file_name)
+  # Extract the sound from the downloaded video and return its local path ('./[s3_key]_[randomized_file_name].mp3')
+  tmp_extracted_sound_path = extract_sound_from_video(tmp_video_path)
 
   # Upload the extracted sound to the app-bucket under /tmp/randomized_file_name]/.mp3
-  upload_sound_to_s3(bucket, tmp_extracted_sound_path, randomized_file_name)
+  upload_sound_to_s3(bucket, tmp_extracted_sound_path)
 
   # Remove input video file once the sound is extracted
   remove_input_file(bucket, object_path)
