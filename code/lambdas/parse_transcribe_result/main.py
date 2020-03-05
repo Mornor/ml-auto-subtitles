@@ -29,8 +29,8 @@ def get_timestamp(seconds):
   return str("%02d:%02d:%02d,%03d" % (00, tmins, int(tsecs), thund))
 
 def write_srt_file(phrases, key):
-  # xxxx.mp3.json to xxxx
-  key = key.split('.')[0]
+  # [input_video_file]_[random_string_sequence].mp3.json to [input_video_file]
+  key = key.split('.')[0].split('_')[0]
   final_result_tmp_file = '/tmp/'+key+'_subtitles.srt'
   with open(final_result_tmp_file, 'w+') as out_file:
     for phrase in phrases:
