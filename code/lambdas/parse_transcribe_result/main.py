@@ -31,7 +31,7 @@ def get_timestamp(seconds):
 def write_srt_file(phrases, key):
   # xxxx.mp3.json to xxxx
   key = key.split('.')[0]
-  final_result_tmp_file = '/tmp/subtitles_'+key+'.srt'
+  final_result_tmp_file = '/tmp/'+key+'_subtitles.srt'
   with open(final_result_tmp_file, 'w+') as out_file:
     for phrase in phrases:
       out_file.write(str(phrase['seq_order']))
@@ -71,7 +71,7 @@ def upload_parsed_result(result_path, bucket):
   except boto3.exceptions.S3UploadFailedError as e:
     print('Upload od the Transcribe result failed: '+e)
     exit(-1)
-  print('Final result uploaded to ['+bucket+'] under [results/'+os.path.basename(result_path)+'].')
+  print('Final result uploaded to ['+bucket+'] under [results/'+os.path.basename(result_path)+']')
 
 def parse_transcribe_result(tmp_filename):
   with open(tmp_filename) as file:
