@@ -1,12 +1,10 @@
 [TODO]
-- Sharding could be very effective. Lambda only uses chnunk of 5mb video.
-- How to retrieve the srt file corresponding to the input video if several input at the same time ?
-- Parametrize Lambda as much as possible
 - Put the Lambdas inside VPC and create interface endpoints, so that communications does not go through Internet.
-- Find a way to re-trigger lambda deployment when code changed
-- The result.srt should be named with a reference to the input video file received (use DynamoDb to retain the input video file name).
-- Check what's the difference between ecs_task_role and ecs_task_execution_role, and which one I need.
 - May be create a SG to run the ECS task (right now, it uses the default SG of the VPC).
+- Sharding could be very effective. Lambda only uses chnunk of 5mb video.
+- Parametrize Lambda as much as possible
+- Find a way to re-trigger lambda deployment when code changed
+- Check what's the difference between ecs_task_role and ecs_task_execution_role, and which one I need.
 
 [DONE]
 - In the s3-ec1-lambdas-bucket, there is no need to create folders. Remove them.
@@ -17,6 +15,7 @@
 - Handle failure on the ECS container and all the Lambdas (no SQS message etc ...)
 - In the trigger_transcribe_job lambda, we can automatically get the MediaFormat from the key (.split('.')[0]) -> .mp3, instead of giving it a variable.
 - Delete old mp3 file from S3 once transcribe job is done.
+- How to retrieve the srt file corresponding to the input video if several input at the same time? -> Pass the input name along the chain.
 
 [Problem]
 - Not possible to extract sound w/ lambda because Numpy cannot be added to a Python package.
