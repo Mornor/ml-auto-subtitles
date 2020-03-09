@@ -51,6 +51,14 @@ variable "publish" {
   type = bool
 }
 
+variable "subnet_ids" {
+  type = list(string)
+}
+
+variable "sg_ids" {
+  type = list(string)
+}
+
 variable "tags" {
   type = map
 }

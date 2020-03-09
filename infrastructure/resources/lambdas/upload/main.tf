@@ -31,10 +31,10 @@ resource "aws_lambda_function" "this" {
     }
   }
 
-  // vpc_config {
-  //   subnet_ids         = var.subnet_ids
-  //   security_group_ids = var.security_group_ids
-  // }
+  vpc_config {
+    subnet_ids         = var.subnet_ids
+    security_group_ids = var.sg_ids
+  }
 }
 
 // # Allow Lambda to be invoked from S3, only if needs to be

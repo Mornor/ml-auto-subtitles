@@ -15,6 +15,8 @@ module "lambda_input_to_sqs" {
   publish               = var.publish
   role_arn              = module.lambda_input_to_sqs_role.arn
   environment_variables = local.lambda_input_to_sqs_env_variables
+  subnet_ids            = [data.terraform_remote_state.networking.outputs.private_subnet_id]
+  sg_ids                = [module.default_sg.id]
   tags                  = local.lambda_input_to_sqs_tags
 }
 
@@ -34,6 +36,8 @@ module "lambda_trigger_ecs_task" {
   publish               = var.publish
   role_arn              = module.lambda_trigger_ecs_task_role.arn
   environment_variables = local.lambda_trigger_ecs_task_env_variables
+  subnet_ids            = [data.terraform_remote_state.networking.outputs.private_subnet_id]
+  sg_ids                = [module.default_sg.id]
   tags                  = local.lambda_trigger_ecs_task_tags
 }
 
@@ -54,6 +58,8 @@ module "lambda_transcribe_job" {
   publish               = var.publish
   role_arn              = module.lambda_trigger_transcribe_job_role.arn
   environment_variables = local.lambda_trigger_transcribe_job_env_variables
+  subnet_ids            = [data.terraform_remote_state.networking.outputs.private_subnet_id]
+  sg_ids                = [module.default_sg.id]
   tags                  = local.lambda_trigger_transcribe_job_tags
 }
 
@@ -73,6 +79,8 @@ module "lambda_parse_transcribe_result" {
   publish               = var.publish
   role_arn              = module.lambda_parse_transcribe_result_role.arn
   environment_variables = local.lambda_parse_transcribe_result_env_variables
+  subnet_ids            = [data.terraform_remote_state.networking.outputs.private_subnet_id]
+  sg_ids                = [module.default_sg.id]
   tags                  = local.lambda_parse_transcribe_result_tags
 }
 
