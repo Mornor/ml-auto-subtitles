@@ -31,3 +31,14 @@ module "connectivity" {
   private_subnet_id = module.private_subnet.id
   public_subnet_id  = module.public_subnet.id
 }
+
+# Create a RT for the Private subnet
+
+# Create a VPC endpoint for S3 and associate the route table of the S3 endpoints
+module "s3_endpoint" {
+  source        = "../../resources/networking/vpc_endpoints/s3_endpoint"
+  vpc_id        = module.vpc.id
+  service_name  = "com.amazonaws.${var.region}.s3"
+  rt_id         = module.connectivity.private_subnet_rt_id
+  tags          = local.s3_endpoint_tags
+}

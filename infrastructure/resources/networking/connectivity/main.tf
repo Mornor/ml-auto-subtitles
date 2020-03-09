@@ -4,7 +4,6 @@ resource "aws_internet_gateway" "this" {
 }
 
 # Route the public subnet traffic through the IGW
-# TODO - Not sure this is useful though.
 resource "aws_route" "internet_access" {
   route_table_id         = var.vpc_main_rt
   destination_cidr_block = "0.0.0.0/0"
