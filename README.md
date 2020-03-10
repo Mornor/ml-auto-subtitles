@@ -10,7 +10,7 @@ This repo contains the Terraform templates in order to deploy the solution in AW
 2. Get the result as a .srt file
 
 ### Repository explanations
-#### [Code](./code)
+  * [Code](./code)
 The code directory is composed if 3 sub-directories: docker, lambdas and local.
 
 ##### [docker](./code/docker)
@@ -26,7 +26,7 @@ docker push <account_id>.dkr.ecr.<region>.amazonaws.com/ecr_media_processing:lat
 ##### [lambdas](./code/lambdas)
 This directory contains the Python code used by the AWS Lambdas.
 
-##### [local]((./code/local)
+##### [local](./code/local)
 The local folder was my starting point, and was used to validate my initial idea. <br/>
 It contains the Python code to locally test the Transcribe job. It takes a video path as an input and make the AWS API calls in order to receive the .srt final result. <br />
 To use it:
@@ -35,7 +35,7 @@ To use it:
 3. Fill up [config.json](./code/local/config.json).
 4. Execute the Transcribe job: `python3 transcribe.py`
 
-#### [Infrastructure](./infrastructure)
+ * [Infrastructure](./infrastructure)
 This directory contains all the necessary templates and resources to deploy the infrastructure on AWS.
 ##### [compostions](./infrastructure/compositions)
 ##### [ecs_definition](./infrastructure/ecs_defintion)
