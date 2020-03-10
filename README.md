@@ -16,17 +16,17 @@ The code directory is composed if 3 sub-directories: docker, lambdas and local.
   * [./code/docker](./code/docker)
 This part contains the Python code which is used by the ECS task to extract the sound from the video. The Dockerfile is used to built the Docker container which needs to be pused to the ECR repo. <br/>
 With [fish](https://fishshell.com/) shell:
-```
+````bash
 eval (aws ecr get-login --no-include-email --region <region>)
 docker build -t ecr_media_processing .
 docker tag ecr_media_processing:latest <account_id>.dkr.ecr.<region>.amazonaws.com/ecr_media_processing:latest
 docker push <account_id>.dkr.ecr.<region>.amazonaws.com/ecr_media_processing:latest
-```
+````
 
-    * [./code/lambdas](./code/lambdas)
+  * [./code/lambdas](./code/lambdas)
 This directory contains the Python code used by the AWS Lambdas.
 
-    * [./code/local](./code/local)
+  * [./code/local](./code/local)
 The local folder was my starting point, and was used to validate my initial idea. <br/>
 It contains the Python code to locally test the Transcribe job. It takes a video path as an input and make the AWS API calls in order to receive the .srt final result. <br />
 To use it:
