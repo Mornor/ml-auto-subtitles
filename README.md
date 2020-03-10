@@ -19,11 +19,7 @@ This directory contains the Python code used by the AWS Lambdas.
    - [./code/local](./code/local)
 The local folder was my starting point, and was used to validate my initial idea. <br />
 It contains the Python code to locally test the Transcribe job. It takes a video path as an input and make the AWS API calls in order to receive the .srt final result. <br />
-To use it:
-1. Export your AWS profile into the shell.
-2. Create a S3 Bucket.
-3. Fill up [config.json](./code/local/config.json).
-4. Execute the Transcribe job: `python3 transcribe.py`
+To use it, export your AWS profile into the shell, create a S3 Bucket, fill-up [config.json](./code/local/config.json) and execute the Transcribe job: `python3 transcribe.py`.
 
    - [./code/docker](./code/docker)
 This part contains the Python code which is used by the ECS task to extract the sound from the video. The Dockerfile is used to built the Docker container which needs to be pused to the ECR repo. <br />
