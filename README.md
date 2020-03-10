@@ -21,9 +21,9 @@ The local folder was my starting point, and was used to validate my initial idea
 It contains the Python code to locally test the Transcribe job. It takes a video path as an input and make the AWS API calls in order to receive the .srt final result. <br />
 To use it:
 1. Export your AWS profile into the shell.
-1. Create a S3 Bucket.
-1. Fill up [config.json](./code/local/config.json).
-1. Execute the Transcribe job: `python3 transcribe.py`.
+2. Create a S3 Bucket.
+3. Fill up [config.json](./code/local/config.json).
+4. Execute the Transcribe job: `python3 transcribe.py`.
 
   * [./code/docker](./code/docker)
 This part contains the Python code which is used by the ECS task to extract the sound from the video. The Dockerfile is used to built the Docker container which needs to be pused to the ECR repo. <br />
@@ -60,17 +60,6 @@ Way went -> We went
 ### Notes and future improvements
 Reference the `notes.md` file. Sharding (not sure if I should mention). Frontend.
 
-
-1. foo
-
-  ````python
-print 'bar'
-  ````
-
-   1. sub-foo
-
-      ````python
-print 'sub-bar'
-      ````
-
-2. Bar
+1. First list item
+   - First nested list item
+     - Second nested list item
