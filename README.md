@@ -1,4 +1,4 @@
-## Automatic Subtitles Generation and synchronization with AWS Transcribe
+## Automatic Subtitles Generation and Synchronization with AWS Transcribe
 
 ### Intro
 [AWS Transcribe](https://aws.amazon.com/transcribe/) allows to automaticaly convert speech to text using their own Machine Learning trained model. <br/>
@@ -10,10 +10,10 @@ This repo contains the Terraform templates in order to deploy the solution in AW
 2. Get the result as a .srt file
 
 ### Repository explanations
-  * [Code](./code) <br/>
+  * [./code](./code) <br/>
 The code directory is composed if 3 sub-directories: docker, lambdas and local.
 
-##### [docker](./code/docker)
+##### [./code/docker](./code/docker)
 This part contains the Python code which is used by the ECS task to extract the sound from the video. The Dockerfile is used to built the Docker container which needs to be pused to the ECR repo. <br/>
 With [fish](https://fishshell.com/) shell:
 ```
@@ -23,10 +23,10 @@ docker tag ecr_media_processing:latest <account_id>.dkr.ecr.<region>.amazonaws.c
 docker push <account_id>.dkr.ecr.<region>.amazonaws.com/ecr_media_processing:latest
 ```
 
-##### [lambdas](./code/lambdas)
+##### [./code/lambdas](./code/lambdas)
 This directory contains the Python code used by the AWS Lambdas.
 
-##### [local](./code/local)
+##### [./code/local](./code/local)
 The local folder was my starting point, and was used to validate my initial idea. <br/>
 It contains the Python code to locally test the Transcribe job. It takes a video path as an input and make the AWS API calls in order to receive the .srt final result. <br />
 To use it:
