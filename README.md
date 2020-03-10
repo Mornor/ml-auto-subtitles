@@ -23,7 +23,7 @@ To use it:
 1. Export your AWS profile into the shell.
 1. Create a S3 Bucket.
 1. Fill up [config.json](./code/local/config.json).
-1. Execute the Transcribe job: `python3 transcribe.py`
+1. Execute the Transcribe job: python3 transcribe.py
 
   * [./code/docker](./code/docker)
 This part contains the Python code which is used by the ECS task to extract the sound from the video. The Dockerfile is used to built the Docker container which needs to be pused to the ECR repo. <br/>
