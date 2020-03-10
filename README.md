@@ -23,10 +23,10 @@ docker tag ecr_media_processing:latest <account_id>.dkr.ecr.<region>.amazonaws.c
 docker push <account_id>.dkr.ecr.<region>.amazonaws.com/ecr_media_processing:latest
 ```
 
-  * [./code/lambdas](./code/lambdas)
+   * [./code/lambdas](./code/lambdas)
 This directory contains the Python code used by the AWS Lambdas.
 
-  * [./code/local](./code/local)
+   * [./code/local](./code/local)
 The local folder was my starting point, and was used to validate my initial idea. <br/>
 It contains the Python code to locally test the Transcribe job. It takes a video path as an input and make the AWS API calls in order to receive the .srt final result. <br />
 To use it:
