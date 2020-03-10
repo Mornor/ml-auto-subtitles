@@ -1,7 +1,7 @@
 ## Automatic Subtitles Generation and Synchronization with AWS Transcribe
 
 ### Intro
-[AWS Transcribe](https://aws.amazon.com/transcribe/) allows to automaticaly convert speech to text using their own Machine Learning trained model. <br/>
+[AWS Transcribe](https://aws.amazon.com/transcribe/) allows to automaticaly convert speech to text using their own Machine Learning trained model. <br />
 Using it, I created a project to generate and synchronize subtitles from a given video as an input file. <br />
 This repo contains the Terraform templates in order to deploy the solution in AWS, as well as the code used for the Lambdas and the code used by the ECS from ECR.
 
@@ -10,23 +10,23 @@ This repo contains the Terraform templates in order to deploy the solution in AW
 2. Get the result as a .srt file
 
 ### Repository explanations
-* [./code](./code)
+* [./code](./code) <br />
 The code directory is composed if 3 sub-directories: docker, lambdas and local.
 
   * [./code/lambdas](./code/lambdas)
 This directory contains the Python code used by the AWS Lambdas.
 
   * [./code/local](./code/local)
-The local folder was my starting point, and was used to validate my initial idea. <br/>
+The local folder was my starting point, and was used to validate my initial idea. <br />
 It contains the Python code to locally test the Transcribe job. It takes a video path as an input and make the AWS API calls in order to receive the .srt final result. <br />
 To use it:
 1. Export your AWS profile into the shell.
 1. Create a S3 Bucket.
 1. Fill up [config.json](./code/local/config.json).
-1. Execute the Transcribe job: python3 transcribe.py
+1. Execute the Transcribe job: `python3 transcribe.py`.
 
   * [./code/docker](./code/docker)
-This part contains the Python code which is used by the ECS task to extract the sound from the video. The Dockerfile is used to built the Docker container which needs to be pused to the ECR repo. <br/>
+This part contains the Python code which is used by the ECS task to extract the sound from the video. The Dockerfile is used to built the Docker container which needs to be pused to the ECR repo. <br />
 With [fish](https://fishshell.com/) shell:
 ```bash
 eval (aws ecr get-login --no-include-email --region <region>)
@@ -35,7 +35,7 @@ docker tag ecr_media_processing:latest <account_id>.dkr.ecr.<region>.amazonaws.c
 docker push <account_id>.dkr.ecr.<region>.amazonaws.com/ecr_media_processing:latest
 ```
 
-* [Infrastructure](./infrastructure) <br/>
+* [Infrastructure](./infrastructure) <br />
 This directory contains all the necessary templates and resources to deploy the infrastructure on AWS.
 ##### [compostions](./infrastructure/compositions)
 ##### [ecs_definition](./infrastructure/ecs_defintion)
@@ -59,3 +59,18 @@ Way went -> We went
 
 ### Notes and future improvements
 Reference the `notes.md` file. Sharding (not sure if I should mention). Frontend.
+
+
+1. foo
+
+  ````python
+print 'bar'
+  ````
+
+   1. sub-foo
+
+      ````python
+print 'sub-bar'
+      ````
+
+2. Bar
