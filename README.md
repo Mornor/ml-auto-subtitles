@@ -22,8 +22,9 @@ docker build -t ecr_media_processing .
 docker tag ecr_media_processing:latest <account_id>.dkr.ecr.<region>.amazonaws.com/ecr_media_processing:latest
 docker push <account_id>.dkr.ecr.<region>.amazonaws.com/ecr_media_processing:latest
 ```
+<br />
 
-    * [./code/docker](./code/docker) <br/>
+    * [./code/lambdas](./code/lambdas) <br />
 This directory contains the Python code used by the AWS Lambdas.
 
     * [./code/local](./code/local)
