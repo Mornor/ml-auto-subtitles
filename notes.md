@@ -1,5 +1,5 @@
 [TODO]
-- Put the Lambdas inside VPC and create interface endpoints, so that communications does not go through Internet.
+- Make sure Lambda connectivity does not goes through the internet
 - May be create a SG to run the ECS task (right now, it uses the default SG of the VPC).
 - Sharding could be very effective. Lambda only uses chnunk of 5mb video.
 - Parametrize Lambda as much as possible
@@ -16,6 +16,7 @@
 - In the trigger_transcribe_job lambda, we can automatically get the MediaFormat from the key (.split('.')[0]) -> .mp3, instead of giving it a variable.
 - Delete old mp3 file from S3 once transcribe job is done.
 - How to retrieve the srt file corresponding to the input video if several input at the same time? -> Pass the input name along the chain.
+- Put the Lambdas inside VPC and create interface endpoints, so that communications does not go through Internet.
 
 [Problem]
 - Not possible to extract sound w/ lambda because Numpy cannot be added to a Python package.
