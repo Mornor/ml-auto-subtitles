@@ -12,12 +12,12 @@ This repo contains the Terraform templates in order to deploy the solution in AW
 ### Repository explanation
 #### [Code](./code)
 The code directory is composed if 3 sub-directories: docker, lambdas and local
-#### docker
-#### lambdas
-#### local
+#### [docker](./code/docker)
+#### [lambdas](./code/lambdas)
+#### [local]((./code/local))
 
 #### [Infrastructure](./infrastructure)
-
+![architecture](./readme_assets/aws_subtitles_infrastructure.png)
 
 ### How to deploy
 
