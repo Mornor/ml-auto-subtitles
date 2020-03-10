@@ -19,7 +19,7 @@ This directory contains the Python code used by the AWS Lambdas.
    - [./code/local](./code/local)
 The local folder was my starting point, and was used to validate my initial idea. <br />
 It contains the Python code to locally test the Transcribe job. It takes a video path as an input and make the AWS API calls in order to receive the .srt final result. <br />
-To use it, export your AWS profile into the shell, create a S3 Bucket, fill-up [config.json](./code/local/config.json) and execute the Transcribe job: `python3 transcribe.py`.
+To use it, export your AWS profile into the shell, create a S3 Bucket, fill-up [config.json](./code/local/config.json) and execute the Transcribe job - `python3 transcribe.py`.
 
    - [./code/docker](./code/docker)
 This part contains the Python code which is used by the ECS task to extract the sound from the video. The Dockerfile is used to built the Docker container which needs to be pused to the ECR repo. <br />
@@ -33,10 +33,11 @@ docker push <account_id>.dkr.ecr.<region>.amazonaws.com/ecr_media_processing:lat
 
 - [Infrastructure](./infrastructure) <br />
 This directory contains all the necessary templates and resources to deploy the infrastructure on AWS.
-##### [compostions](./infrastructure/compositions)
-##### [ecs_definition](./infrastructure/ecs_defintion)
-##### [policies](./infrastructure/policies)
-##### [resources](./infrastructure/resources)
+
+   - [compostions](./infrastructure/compositions)
+   - [ecs_definition](./infrastructure/ecs_defintion)
+   - [policies](./infrastructure/policies)
+   - [resources](./infrastructure/resources)
 
 
 ### How to deploy
