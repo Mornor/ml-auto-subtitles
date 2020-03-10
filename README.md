@@ -60,6 +60,6 @@ Way went -> We went
 ### Notes and future improvements
 Reference the `notes.md` file. Sharding (not sure if I should mention). Frontend.
 
-1. First list item
+- First list item
    - First nested list item
      - Second nested list item
