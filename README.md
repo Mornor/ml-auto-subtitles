@@ -10,7 +10,7 @@ This repo contains the Terraform templates in order to deploy the solution in AW
 2. Get the result as a .srt file
 
 ### Repository explanation
-#### [Code](https://github.com/Mornor/ml-auto-subtitles/tree/master/code)
+#### [Code](./code)
 
 
 ### How to deploy
