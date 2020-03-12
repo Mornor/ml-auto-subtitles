@@ -89,7 +89,7 @@ terraform {
 - `terraform plan`
 - `terraform apply`. Optionally `terraform apply --auto-approve`
 - Apply same command for `infrastructure/compositions/buckets` and `infrastructure/compositions/media_processing`
-- Build and upload to ECR the Docker image used by the ECS task:
+- Build and upload to ECR the Docker image used by the ECS task: <br />
 With [fish](https://fishshell.com/) shell:
 ```bash
 eval (aws ecr get-login --no-include-email --region <region>)
@@ -99,7 +99,14 @@ docker push <account_id>.dkr.ecr.<region>.amazonaws.com/ecr_media_processing:lat
 ```
 
 ### Machine Learning Model model accuracy
-Way went -> We went
+> [Amazon Transcribe uses a deep learning process called automatic speech recognition (ASR) to convert speech to text quickly and accurately](https://aws.amazon.com/transcribe/).
+However, for some very close pronunciation cases, the model could be not accurate enough (althoigh constantly improving). <br />
+In the F.R.I.E.N.D.S extract I used as a test, Phoebe says
+> We went to a self-defense class today
+Which is translated by
+> Way went to a self-defense class today
+![transcribe_error](readme_assets/transcribe_error.png)
+However annoying, this can be easily fixed by editing the resulting `.srt` file with a simple text editor.
 
 ### Problem encoutered and solution found
 
