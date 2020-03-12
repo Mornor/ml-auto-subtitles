@@ -9,6 +9,13 @@ This repo contains the Terraform templates in order to deploy the solution in AW
 1. Put a video file as input in a S3 folder.
 2. Get the result as a .srt file
 
+### Architecture
+#### Schema
+![architecture](./readme_assets/aws_subtitles_infrastructure.png)
+
+#### Workflow
+
+
 ### Repository explanations
 - [./code](./code) <br />
 The code directory is composed if 3 sub-directories: docker, lambdas and local.
@@ -48,13 +55,6 @@ This directory contains all the necessary templates and resources to deploy the 
 
 
 ### How to deploy
-
-### Architecture
-#### Schema
-Below is the architecture deployed by the Terraform template.
-![architecture](./readme_assets/aws_subtitles_infrastructure.png)
-
-#### Workflow
 
 ### Machine Learning Model model accuracy
 Way went -> We went
