@@ -41,13 +41,6 @@ To use it, export your AWS profile into the shell, create a S3 Bucket, fill-up [
 
    - [/docker](./code/docker) <br />
 This part contains the Python code which is used by the ECS task to extract the sound from the video. The Dockerfile is used to built the Docker container which needs to be pused to the ECR repo. <br />
-With [fish](https://fishshell.com/) shell:
-```bash
-eval (aws ecr get-login --no-include-email --region <region>)
-docker build -t ecr_media_processing .
-docker tag ecr_media_processing:latest <account_id>.dkr.ecr.<region>.amazonaws.com/ecr_media_processing:latest
-docker push <account_id>.dkr.ecr.<region>.amazonaws.com/ecr_media_processing:latest
-```
 
 - [./infrastructure](./infrastructure) <br />
 This directory contains all the necessary templates and resources to deploy the infrastructure on AWS.
@@ -91,6 +84,19 @@ terraform {
 - Remove any `.tfstate` or `.tfstate.backup` file from the current dir.
 
 #### Transcribe architecture
+- `cd infrastructure/compositions/networking`
+- `terraform init --backend-config=backend.config`
+- `terraform plan`
+- `terraform apply`. Optionally `terraform apply --auto-approve`
+- Apply same command for `infrastructure/compositions/buckets` and `infrastructure/compositions/media_processing`
+- Build and upload to ECR the Docker image used by the ECS task:
+With [fish](https://fishshell.com/) shell:
+```bash
+eval (aws ecr get-login --no-include-email --region <region>)
+docker build -t ecr_media_processing .
+docker tag ecr_media_processing:latest <account_id>.dkr.ecr.<region>.amazonaws.com/ecr_media_processing:latest
+docker push <account_id>.dkr.ecr.<region>.amazonaws.com/ecr_media_processing:latest
+```
 
 ### Machine Learning Model model accuracy
 Way went -> We went
