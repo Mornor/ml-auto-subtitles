@@ -16,11 +16,11 @@ This repo contains the Terraform templates in order to deploy the solution in AW
 #### Workflow
 1. The user puts the input video file into the [`app_bucket`](infrastructure/compositions/buckets/main.tf) under `inputs/`.
 2. This triggers the [`input_to_sqs`](./code/lambdas/input_to_sqs/main.py) Lambda which will send the key path of the input file into the [`sqs_input`](./infrastructure/compositions/media_processing/sqs.tf) Queue.
-3. A message put into this queue trigger the [`trigger_ecs_task`](./code/lambdas/trigger_ecs_task/main.py) Lambda. The function will
-   1. Read and parse the message from the SQS Queue
-   2. Trigger an ECS task and passing the values (key pahth and bucket name) fetched from the SQS to it.
+3. A message put into this queue triggers the [`trigger_ecs_task`](./code/lambdas/trigger_ecs_task/main.py) Lambda. The function will
+   1. read and parse the message from the SQS Queue.
+   2. trigger an ECS task and passing the values (key pahth and bucket name) fetched from the SQS to it.
 4. The ECS task will download the input file into its local FS, extract the sound from it and upload the `.mp3` result under `/tmp` of the `app_bucket`.
-5. Once a message is put under `tmp/` the [`trigger_transcribe_job`](./code/lambdas/trigger_transcribe_job/main.py) launches the Transcribe job and send to it the key path of the extracted sound as well as the bucket name.
+5. Once a message is put under `tmp/` the [`trigger_transcribe_job`](./code/lambdas/trigger_transcribe_job/main.py) starts the Transcribe job and send to it the key path of the extracted sound as well as the bucket name.
 6. The Transcribe job starts with the arguments given to it (key path of the `.mp3` file and the bucket name).
 7. Once the Transcribe job is done, its result is uploaded into the [`transcribe_result_bucket`](infrastructure/compositions/buckets/main.tf).
 8. This result needs to be parsed into a `.srt` format, which is what the [`parse_transcribe_result`](code/lambdas/parse_transcribe_result/main.py) Lambda does when triggered by a bucket notification when a file is uploaded into the root of the `transcribe_result_bucket`.
@@ -66,6 +66,31 @@ This directory contains all the necessary templates and resources to deploy the 
 
 
 ### How to deploy
+#### Terraform backend
+- `cd infrastructure/compositions/terraform_backend`
+- Comment the S3 part of the [`providers.tf`](./infrastructure/compositions/terraform_backend/providers.tf) file from [`terraform_backend`](./infrastructure/compositions/terraform_backend):
+```
+terraform {
+  required_version = ">= 0.12"
+//  backend "s3" {
+//  }
+}
+```
+- `terraform init --backend-config=backend.config`
+- `terraform plan`
+- `terraform apply`. Optionally `terraform apply --auto-approve`
+- Uncomment the S3 part
+```
+terraform {
+  required_version = ">= 0.12"
+  backend "s3" {
+  }
+}
+```
+- `terraform init --backend-config=backend.config` and type yes to copy the local state into the deployed remote state bucket.
+- Remove any `.tfstate` or `.tfstate.backup` file from the current dir.
+
+#### Transcribe architecture
 
 ### Machine Learning Model model accuracy
 Way went -> We went
