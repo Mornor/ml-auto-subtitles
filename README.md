@@ -17,8 +17,8 @@ This repo contains the Terraform templates in order to deploy the solution in AW
 1. The user puts the input video file into the [`app_bucket`](infrastructure/compositions/buckets/main.tf) under `inputs/`.
 2. This triggers the [`input_to_sqs`](./code/lambdas/input_to_sqs/main.py) Lambda which will send the key path of the input file into the [`sqs_input`](./infrastructure/compositions/media_processing/sqs.tf) Queue.
 3. A message put into this queue trigger the [`trigger_ecs_task`](./code/lambdas/trigger_ecs_task/main.py) Lambda. The function will
-  1. Read and parse the message from the SQS Queue
-  2. Trigger an ECS task and passing the values (key pahth and bucket name) fetched from the SQS to it.
+   1. Read and parse the message from the SQS Queue
+   2. Trigger an ECS task and passing the values (key pahth and bucket name) fetched from the SQS to it.
 4. The ECS task will download the input file into its local FS, extract the sound from it and upload the `.mp3` result under `/tmp` of the `app_bucket`.
 5. Once a message is put under `tmp/` the [`trigger_transcribe_job`](./code/lambdas/trigger_transcribe_job/main.py) launches the Transcribe job and send to it the key path of the extracted sound as well as the bucket name.
 6. The Transcribe job starts with the arguments given to it (key path of the `.mp3` file and the bucket name).
