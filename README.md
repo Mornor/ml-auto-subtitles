@@ -13,15 +13,15 @@ This repo contains the Terraform templates in order to deploy the solution in AW
 - [./code](./code) <br />
 The code directory is composed if 3 sub-directories: docker, lambdas and local.
 
-   - [/lambdas](./code/lambdas)
+   - [/lambdas](./code/lambdas) <br />
 This directory contains the Python code used by the AWS Lambdas.
 
-   - [/local](./code/local)
-The local folder was my starting point, and was used to validate my initial idea. <br />
-It contains the Python code to locally test the Transcribe job. It takes a video path as an input and make the AWS API calls in order to receive the .srt final result. <br />
+   - [/local](./code/local) <br />
+This folder was my starting point, and was used to validate my initial idea. <br />
+It contains the Python code to locally test the Transcribe job. It takes a video path as an input and calls the AWS API to receive the .srt final result. <br />
 To use it, export your AWS profile into the shell, create a S3 Bucket, fill-up [config.json](./code/local/config.json) and execute the Transcribe job - `python3 transcribe.py`.
 
-   - [/docker](./code/docker)
+   - [/docker](./code/docker) <br />
 This part contains the Python code which is used by the ECS task to extract the sound from the video. The Dockerfile is used to built the Docker container which needs to be pused to the ECR repo. <br />
 With [fish](https://fishshell.com/) shell:
 ```bash
@@ -34,10 +34,17 @@ docker push <account_id>.dkr.ecr.<region>.amazonaws.com/ecr_media_processing:lat
 - [./infrastructure](./infrastructure) <br />
 This directory contains all the necessary templates and resources to deploy the infrastructure on AWS.
 
-   - [/compostions](./infrastructure/compositions)
-   - [/ecs_definition](./infrastructure/ecs_defintion)
-   - [/policies](./infrastructure/policies)
-   - [/resources](./infrastructure/resources)
+   - [/compostions](./infrastructure/compositions) <br />
+   Logical units of Terraform code. Each parts define some Terraform `modules` which call a group of Terraform `resources` defined in [./infrastructure/resources](./infrastructure/resources). For example, in `buckets` we can find the code used to deploy each S3 Buckets used by the code. Since I want all my buckets to be encrypted, I can re-use the same `module` structure I defined for all of them.
+
+   - [/ecs_definition](./infrastructure/ecs_defintion) <br />
+   JSON templates defining the [ECS task definition](https://docs.aws.amazon.com/AmazonECS/latest/userguide/task_definitions.html). This template is populated by the [ecs_defintion.tf](./infrastructure/compositions/media_processing/ecs_definition.tf) Terraform template file.
+
+   - [/policies](./infrastructure/policies) <br />
+   All the policies used by the different components. These policies are also templated using the same technique as the one used in `ecs_definition` module.
+
+   - [/resources](./infrastructure/resources) <br />
+   Terraform `resources` logically grouped together and called from the [./composition](infrastructure/compositions/media_processing/ecs_definition.tf) part. For exanple, a [S3 Bucket](infrastructure/resources/storage/s3/main.tf) is being defined as a group of `aws_s3_bucket`, `aws_s3_bucket_policy` and a `aws_s3_bucket_public_access_block` Terraform resource.
 
 
 ### How to deploy
