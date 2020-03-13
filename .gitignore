@@ -12,3 +12,4 @@
 **/assets/
 *.mp4
 **/.zip
+*.sh
