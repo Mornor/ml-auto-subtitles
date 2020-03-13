@@ -140,4 +140,4 @@ The solution I choose was to create another Bucket (`transcribe_result_bucket`) 
 - Sharding with Kinesis
 - Have a frontend
 
-Those solutions might be implemented in the future in a private repo.
+These solutions might be implemented in the future in a private repo.
