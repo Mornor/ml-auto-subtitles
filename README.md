@@ -101,7 +101,7 @@ docker push <account_id>.dkr.ecr.<region>.amazonaws.com/ecr_media_processing:lat
 ### Machine Learning Model model accuracy
 > [Amazon Transcribe uses a deep learning process called automatic speech recognition (ASR) to convert speech to text quickly and accurately](https://aws.amazon.com/transcribe/).
 
-However, for some very close pronunciation cases, the model could be not accurate enough (althoigh constantly improving). <br />
+However, for some very close pronunciation cases, the model could be not accurate enough (although constantly improving). <br />
 In the F.R.I.E.N.D.S extract I used as a test, Phoebe says:
 
 > We went to a self-defense class
