@@ -18,12 +18,12 @@ This repo contains the Terraform templates in order to deploy the solution in AW
 2. This triggers the [`input_to_sqs`](./code/lambdas/input_to_sqs/main.py) Lambda which will send the key path of the input file into the [`sqs_input`](./infrastructure/compositions/media_processing/sqs.tf) Queue.
 3. A message put into this queue triggers the [`trigger_ecs_task`](./code/lambdas/trigger_ecs_task/main.py) Lambda. The function will
    1. read and parse the message from the SQS Queue.
-   2. trigger an ECS task and passing the values (key pahth and bucket name) fetched from the SQS to it.
+   2. trigger an ECS task and passing the values (key pahth and Bucket name) fetched from the SQS to it.
 4. The ECS task will download the input file into its local FS, extract the sound from it and upload the `.mp3` result under `/tmp` of the `app_bucket`.
-5. Once a message is put under `tmp/` the [`trigger_transcribe_job`](./code/lambdas/trigger_transcribe_job/main.py) starts the Transcribe job and send to it the key path of the extracted sound as well as the bucket name.
-6. The Transcribe job starts with the arguments given to it (key path of the `.mp3` file and the bucket name).
+5. Once a message is put under `tmp/` the [`trigger_transcribe_job`](./code/lambdas/trigger_transcribe_job/main.py) starts the Transcribe job and send to it the key path of the extracted sound as well as the Bucket name.
+6. The Transcribe job starts with the arguments given to it (key path of the `.mp3` file and the Bucket name).
 7. Once the Transcribe job is done, its result is uploaded into the [`transcribe_result_bucket`](infrastructure/compositions/buckets/main.tf).
-8. This result needs to be parsed into a `.srt` format, which is what the [`parse_transcribe_result`](code/lambdas/parse_transcribe_result/main.py) Lambda does when triggered by a bucket notification when a file is uploaded into the root of the `transcribe_result_bucket`.
+8. This result needs to be parsed into a `.srt` format, which is what the [`parse_transcribe_result`](code/lambdas/parse_transcribe_result/main.py) Lambda does when triggered by a Bucket notification when a file is uploaded into the root of the `transcribe_result_bucket`.
 9. Finally, the parsed and synchronized `.srt` file from the uploaded input video is uploaded into the `transcribe_result_bucket` under `results/`
 
 
@@ -46,7 +46,7 @@ This part contains the Python code which is used by the ECS task to extract the 
 This directory contains all the necessary templates and resources to deploy the infrastructure on AWS.
 
    - [/compostions](./infrastructure/compositions) <br />
-   Logical units of Terraform code. Each parts define some Terraform `modules` which call a group of Terraform `resources` defined in [./infrastructure/resources](./infrastructure/resources). For example, in `buckets` we can find the code used to deploy each S3 Buckets used by the code. Since I want all my buckets to be encrypted, I can re-use the same `module` structure I defined for all of them.
+   Logical units of Terraform code. Each parts define some Terraform `modules` which call a group of Terraform `resources` defined in [./infrastructure/resources](./infrastructure/resources). For example, in `buckets` we can find the code used to deploy each S3 Buckets used by the code. Since I want all the Buckets to be encrypted, I can re-use the same `module` structure I defined for all of them.
 
    - [/ecs_definition](./infrastructure/ecs_defintion) <br />
    JSON templates defining the [ECS task definition](https://docs.aws.amazon.com/AmazonECS/latest/userguide/task_definitions.html). This template is populated by the [ecs_defintion.tf](./infrastructure/compositions/media_processing/ecs_definition.tf) Terraform template file.
@@ -80,7 +80,7 @@ terraform {
   }
 }
 ```
-- `terraform init --backend-config=backend.config` and type yes to copy the local state into the deployed remote state bucket.
+- `terraform init --backend-config=backend.config` and type yes to copy the local state into the deployed remote state Bucket.
 - Remove any `.tfstate` or `.tfstate.backup` file from the current dir.
 
 #### Transcribe architecture
@@ -124,8 +124,8 @@ Because of these limitations, I decided to go for an ECS task running on Fargate
 Transcribe creates a `.write_access_check_file.temp` at the root of the Bucket in which its end-result will be uploaded. This means that the `parse_transcribe_result` Lambda will be triggered by the creation of this file and will try to parse it, resulting in an error (since the Lambda expects a `.json` file, resulting from the Transcribe Job). <br />
 The solution was to trigger this Lambda when a file was uploaded to the root of the Bucket *AND* that this file ends with `.json` (using the `suffix` feature).
 
-- Transcribe and key path
-My initial plan was to only use one bucket for everything. <br />
+- Transcribe and key path <br />
+My initial plan was to only use one Bucket for everything. <br />
 However Transcribe does not allow to specify a key path to use to upload its end-result (otherwise I would have used the already deployed `app_bucket`, and upload the final result under something like `/results`). Only a Bucket can be specified in The Transcribe job. I could have used the `app_bucket` and uploads the results at its roots, but I think this breaks the logic of having dir-like structure in this Bucket. <br />
 The solution I choose was to create another Bucket (`transcribe_result_bucket`) to hold the end-result of the Transcribe job.
 
