@@ -7,7 +7,7 @@ This repo contains the Terraform templates in order to deploy the solution in AW
 
 ### Basic idea
 1. Put a video file as input in a S3 folder.
-2. Get the result as a .srt file
+2. Get the result as a `.srt` file.
 
 ### Architecture
 #### Schema
@@ -15,16 +15,16 @@ This repo contains the Terraform templates in order to deploy the solution in AW
 
 #### Workflow
 1. The user puts the input video file into the [`app_bucket`](infrastructure/compositions/buckets/main.tf) under `inputs/`.
-2. This triggers the [`input_to_sqs`](./code/lambdas/input_to_sqs/main.py) Lambda which will send the key path of the input file into the [`sqs_input`](./infrastructure/compositions/media_processing/sqs.tf) Queue.
-3. A message put into this queue triggers the [`trigger_ecs_task`](./code/lambdas/trigger_ecs_task/main.py) Lambda. The function will
+2. This triggers the [`input_to_sqs`](./code/lambdas/input_to_sqs/main.py) Lambda which will send the key path of the input file into the [`sqs_input`](./infrastructure/compositions/media_processing/sqs.tf) queue.
+3. A message received in this queue triggers the [`trigger_ecs_task`](./code/lambdas/trigger_ecs_task/main.py) Lambda. The function will
    1. read and parse the message from the SQS Queue.
    2. trigger an ECS task and passing the values (key pahth and Bucket name) fetched from the SQS to it.
 4. The ECS task will download the input file into its local FS, extract the sound from it and upload the `.mp3` result under `/tmp` of the `app_bucket`.
 5. Once a message is put under `tmp/` the [`trigger_transcribe_job`](./code/lambdas/trigger_transcribe_job/main.py) starts the Transcribe job and send to it the key path of the extracted sound as well as the Bucket name.
 6. The Transcribe job starts with the arguments given to it (key path of the `.mp3` file and the Bucket name).
 7. Once the Transcribe job is done, its result is uploaded into the [`transcribe_result_bucket`](infrastructure/compositions/buckets/main.tf).
-8. This result needs to be parsed into a `.srt` format, which is what the [`parse_transcribe_result`](code/lambdas/parse_transcribe_result/main.py) Lambda does when triggered by a Bucket notification when a file is uploaded into the root of the `transcribe_result_bucket`.
-9. Finally, the parsed and synchronized `.srt` file from the uploaded input video is uploaded into the `transcribe_result_bucket` under `results/`
+8. This result needs to be parsed into a `.srt` format. This is the job of the [`parse_transcribe_result`](code/lambdas/parse_transcribe_result/main.py) which is triggered by a Bucket notification when a file is uploaded into the root of the `transcribe_result_bucket`.
+9. Finally, the parsed and synchronized `.srt` file from the uploaded input video is uploaded into the `transcribe_result_bucket` under `results/`.
 
 
 ### Repository explanations
@@ -46,13 +46,13 @@ This part contains the Python code which is used by the ECS task to extract the 
 This directory contains all the necessary templates and resources to deploy the infrastructure on AWS.
 
    - [/compostions](./infrastructure/compositions) <br />
-   Logical units of Terraform code. Each parts define some Terraform `modules` which call a group of Terraform `resources` defined in [./infrastructure/resources](./infrastructure/resources). For example, in `buckets` we can find the code used to deploy each S3 Buckets used by the code. Since I want all the Buckets to be encrypted, I can re-use the same `module` structure I defined for all of them.
+   Logical units of Terraform code. Each parts define some Terraform `modules` which call a group of Terraform `resources` defined in [./infrastructure/resources](./infrastructure/resources). For example, in `buckets` we can find the code used to deploy each S3 Buckets used by the solution. Since I want all the Buckets to be encrypted, I can re-use the same `module` structure I defined for all of them.
 
    - [/ecs_definition](./infrastructure/ecs_defintion) <br />
    JSON templates defining the [ECS task definition](https://docs.aws.amazon.com/AmazonECS/latest/userguide/task_definitions.html). This template is populated by the [ecs_defintion.tf](./infrastructure/compositions/media_processing/ecs_definition.tf) Terraform template file.
 
    - [/policies](./infrastructure/policies) <br />
-   All the policies used by the different components. These policies are also templated using the same technique as the one used in `ecs_definition` module.
+   All the policies used by the different components. These policies are templated using the same technique as the one used in `ecs_definition` module.
 
    - [/resources](./infrastructure/resources) <br />
    Terraform `resources` logically grouped together and called from the [./composition](infrastructure/compositions/media_processing/ecs_definition.tf) part. For exanple, a [S3 Bucket](infrastructure/resources/storage/s3/main.tf) is being defined as a group of `aws_s3_bucket`, `aws_s3_bucket_policy` and a `aws_s3_bucket_public_access_block` Terraform resource.
@@ -133,7 +133,7 @@ The solution I choose was to create another Bucket (`transcribe_result_bucket`) 
 - ECS on Fargate is suitable for this use-case because:
    - I do not need to manage the under-lying instances
    - I have [10GB for Docker layer, and additional 4GB for volume mounts](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-task-storage.html), which is enough to download most of the input vide file locally.
-- The Lambda function works inside a Private subnets and uses VPC endpoints to reach the different services.
+- The Lambda functions works inside a Private subnets and uses VPC endpoints to reach the different services.
 - Same for the ECS Cluster, which uses a NAT Gateway instead to pull the Docker container from ECR.
 
 ### Possible improvements
