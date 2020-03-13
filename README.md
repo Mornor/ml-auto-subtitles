@@ -135,6 +135,9 @@ The solution I choose was to create another Bucket (`transcribe_result_bucket`) 
    - I have [10GB for Docker layer, and additional 4GB for volume mounts](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-task-storage.html), which is enough to download most of the input vide file locally.
 - The Lambda functions works inside a Private subnets and uses VPC endpoints to reach the different services.
 - Same for the ECS Cluster, which uses a NAT Gateway instead to pull the Docker container from ECR.
+- If you want to test the solution by yourself, I added [`video.mp4`](./assets/video.mp4) under `assets/`.
+- The result from the Transcribe job can be found under [`video.mp4`](./assets/tmp_transcribe_result.json).
+- The parsed final result can be found under [`video.mp4`](./assets/result.srt).
 
 ### Possible improvements
 - Sharding with Kinesis
