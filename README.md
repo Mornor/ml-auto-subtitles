@@ -140,7 +140,7 @@ The solution I choose was to create another Bucket (`transcribe_result_bucket`) 
 - The parsed final result can be found under [`result.srt`](./assets/result.srt).
 
 ### Possible improvements
-- Sharding with Kinesis
-- Have a frontend
+- Sharding with Kinesis.
+- Have a frontend.
 
 These solutions might be implemented in the future in a private repo.
