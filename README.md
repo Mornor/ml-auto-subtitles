@@ -114,10 +114,19 @@ Which is translated by
 However annoying, this can be easily fixed by editing the resulting `.srt` file with a simple text editor.
 
 ### Problem encoutered and solution found
+- All-in with Lambda <br />
+My plan was to used only Lambdas function to do everything. I have been quickly limited because of the following reasons:
+   - I needed to locally download the inout video to extract the sound from it. The `/tmp` storage is limited to [512MB](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html).
+   - There was a risk of a too-long processing-time, which means the Lambda could have timed-out.
+Because of these limitations, I decided to go for an ECS task running on Fargate.
+- AWS Transcribe tmp file <br />
+Transcribe creates a `.write_access_check_file.temp` at the root of the Bucket in which its end-result will be uploaded. This means that the `parse_transcribe_result` Lambda will be triggered by the creation of this file, and will try to parse it, resulting in an error (since the Lambda expects a `.json` file, results from the Transcribe Job). <br />
+The solution was to trigger this Lambda when a file was uploaded to the root of the Bucket AND that this file ends with `.json` (using the `suffix` feature).
+
+
+- Transcribe no key possible
+
+ECS
 
 ### Notes and future improvements
 Reference the `notes.md` file. Sharding (not sure if I should mention). Frontend.
-
-- First list item
-   - First nested list item
-     - Second nested list item
