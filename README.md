@@ -3,7 +3,7 @@
 ### Intro
 [AWS Transcribe](https://aws.amazon.com/transcribe/) allows to automaticaly convert speech to text using their own Machine Learning trained model. <br />
 Using it, I created a project to generate and synchronize subtitles from a given video as an input file. <br />
-This repo contains the Terraform templates in order to deploy the solution in AWS, as well as the code used for the Lambdas and the code used by the ECS from ECR.
+This repo contains the Terraform templates in order to deploy the solution in AWS, as well as the code used for the Lambdas and the code used by the ECS (on Fargate) from a home-made Docker image uploaded to ECR.
 
 ### Basic idea
 1. Put a video file as input in a S3 folder.
@@ -119,14 +119,25 @@ My plan was to used only Lambdas function to do everything. I have been quickly 
    - I needed to locally download the inout video to extract the sound from it. The `/tmp` storage is limited to [512MB](https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html).
    - There was a risk of a too-long processing-time, which means the Lambda could have timed-out.
 Because of these limitations, I decided to go for an ECS task running on Fargate.
+
 - AWS Transcribe tmp file <br />
-Transcribe creates a `.write_access_check_file.temp` at the root of the Bucket in which its end-result will be uploaded. This means that the `parse_transcribe_result` Lambda will be triggered by the creation of this file, and will try to parse it, resulting in an error (since the Lambda expects a `.json` file, results from the Transcribe Job). <br />
-The solution was to trigger this Lambda when a file was uploaded to the root of the Bucket AND that this file ends with `.json` (using the `suffix` feature).
+Transcribe creates a `.write_access_check_file.temp` at the root of the Bucket in which its end-result will be uploaded. This means that the `parse_transcribe_result` Lambda will be triggered by the creation of this file and will try to parse it, resulting in an error (since the Lambda expects a `.json` file, resulting from the Transcribe Job). <br />
+The solution was to trigger this Lambda when a file was uploaded to the root of the Bucket *AND* that this file ends with `.json` (using the `suffix` feature).
 
+- Transcribe and key path
+My initial plan was to only use one bucket for everything. <br />
+However Transcribe does not allow to specify a key path to use to upload its end-result (otherwise I would have used the already deployed `app_bucket`, and upload the final result under something like `/results`). Only a Bucket can be specified in The Transcribe job. I could have used the `app_bucket` and uploads the results at its roots, but I think this breaks the logic of having dir-like structure in this Bucket. <br />
+The solution I choose was to create another Bucket (`transcribe_result_bucket`) to hold the end-result of the Transcribe job.
 
-- Transcribe no key possible
+### Notes
+- ECS on Fargate is suitable for this use-case because:
+   - I do not need to manage the under-lying instances
+   - I have [10GB for Docker layer, and additional 4GB for volume mounts](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-task-storage.html), which is enough to download most of the input vide file locally.
+- The Lambda function works inside a Private subnets and uses VPC endpoints to reach the different services.
+- Same for the ECS Cluster, which uses a NAT Gateway instead to pull the Docker container from ECR.
 
-ECS
+### Possible improvements
+- Sharding with Kinesis
+- Have a frontend
 
-### Notes and future improvements
-Reference the `notes.md` file. Sharding (not sure if I should mention). Frontend.
+Those solutions might be implemented in the future in a private repo.
