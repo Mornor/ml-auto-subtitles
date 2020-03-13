@@ -3,8 +3,6 @@
 **/.terraform/*
 *.tfstate.*
 *.tfstate
-*.srt
-*.json
 **/test_file.py
 **__pycache__/
 **/results/

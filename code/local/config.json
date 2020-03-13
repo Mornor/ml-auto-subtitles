@@ -1,0 +1,6 @@
+{
+  "aws_region": "eu-central-1",
+  "bucket": "s3-ec1-app-bucket",
+  "path_audio_input": "../assets/audio_trimmed.mp3",
+  "path_srt_output": "../results/subtitles.srt"
+}
